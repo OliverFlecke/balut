@@ -1,0 +1,19 @@
+{
+  "files": {
+    "main.js": "/balut.app/static/js/main.2b7adff7.chunk.js",
+    "main.js.map": "/balut.app/static/js/main.2b7adff7.chunk.js.map",
+    "runtime-main.js": "/balut.app/static/js/runtime-main.9c29fe8d.js",
+    "runtime-main.js.map": "/balut.app/static/js/runtime-main.9c29fe8d.js.map",
+    "static/js/2.36504bd5.chunk.js": "/balut.app/static/js/2.36504bd5.chunk.js",
+    "static/js/2.36504bd5.chunk.js.map": "/balut.app/static/js/2.36504bd5.chunk.js.map",
+    "index.html": "/balut.app/index.html",
+    "precache-manifest.e1872f196bc01ca1007779ad9e7045f7.js": "/balut.app/precache-manifest.e1872f196bc01ca1007779ad9e7045f7.js",
+    "service-worker.js": "/balut.app/service-worker.js",
+    "static/js/2.36504bd5.chunk.js.LICENSE.txt": "/balut.app/static/js/2.36504bd5.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.9c29fe8d.js",
+    "static/js/2.36504bd5.chunk.js",
+    "static/js/main.2b7adff7.chunk.js"
+  ]
+}

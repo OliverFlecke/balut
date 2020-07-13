@@ -16,7 +16,7 @@ export const Cell = ({ category, value, index }: CellProps) => {
 	const onChange = useCallback(
 		(e: React.FormEvent<HTMLTableDataCellElement>) => {
 			const v = e.currentTarget.textContent;
-			if (v === null || v === '') {
+			if (v === null) {
 				return;
 			}
 

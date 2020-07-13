@@ -11,6 +11,7 @@ export type RowState = [Value, Value, Value, Value];
 
 export interface BalutState {
 	values: BalutValues;
+	name?: string;
 }
 
 export interface BalutAction {

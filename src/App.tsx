@@ -4,7 +4,7 @@ import styled, {
 	css,
 	createGlobalStyle,
 } from 'styled-components';
-import { Board } from './components/Board';
+import { Board } from './components/Board/Board';
 import { darkColors } from './styles/colors';
 import theme from 'styled-theming';
 

@@ -1,12 +1,12 @@
-import React, { useState, useReducer } from 'react';
+import React, { useState } from 'react';
 import styled, {
-	ThemeProvider,
-	css,
 	createGlobalStyle,
+	css,
+	ThemeProvider,
 } from 'styled-components';
+import theme from 'styled-theming';
 import { Board } from './components/Board/Board';
 import { darkColors } from './styles/colors';
-import theme from 'styled-theming';
 
 function App() {
 	const [theme, setCurrentTheme] = useState<string>(

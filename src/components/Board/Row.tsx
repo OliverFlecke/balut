@@ -2,6 +2,7 @@ import React from 'react';
 import { Category } from '../../Category';
 import { Td, Th, Tr } from '../../styles/table';
 import { Cell } from './Cell';
+import { categoryPoints, sumValues } from './rules';
 import { RowState } from './state/BalutState';
 
 interface RowProps {
@@ -11,6 +12,7 @@ interface RowProps {
 
 export const Row = ({ category, values }: RowProps) => {
 	const sum = sumValues(values);
+	const points = categoryPoints(category, values);
 
 	return (
 		<Tr>
@@ -19,14 +21,7 @@ export const Row = ({ category, values }: RowProps) => {
 				<Cell key={i} index={i} value={value} category={category} />
 			))}
 			<Td>{sum !== 0 ? sum : ''}</Td>
-			<Td>-</Td>
+			<Td>{points}</Td>
 		</Tr>
 	);
 };
-
-function sumValues(values: RowState): number {
-	return values
-		.filter((x) => typeof x === 'number')
-		.map((x) => x as number)
-		.reduce((acc, v) => acc + v, 0);
-}

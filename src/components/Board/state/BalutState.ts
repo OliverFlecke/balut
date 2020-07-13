@@ -48,11 +48,15 @@ function initState(): BalutState {
 	}
 
 	return {
-		// eslint-disable-next-line @typescript-eslint/no-explicit-any
-		values: enumStrings(Category).reduce((acc: any, key) => {
-			acc[key] = [undefined, undefined, undefined, undefined];
-
-			return acc;
-		}, {}),
+		values: initValues(),
 	};
+}
+
+export function initValues() {
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	return enumStrings(Category).reduce((acc: any, key) => {
+		acc[key] = [undefined, undefined, undefined, undefined];
+
+		return acc;
+	}, {});
 }

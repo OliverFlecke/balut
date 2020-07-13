@@ -28,7 +28,7 @@ export function sumValues(values: RowState): number {
 }
 
 const finalPointScoreThresholds = [300, 350, 400, 450, 500, 550, 600, 650];
-export function finalPointScore(score: number): number {
+export function extraPointScore(score: number): number {
 	let points = -2;
 
 	for (const threshold of finalPointScoreThresholds) {

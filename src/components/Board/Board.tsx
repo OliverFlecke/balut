@@ -1,24 +1,33 @@
-import React, { useReducer, useCallback } from 'react';
-import styled from 'styled-components';
+import React, { useCallback, useReducer } from 'react';
 import { Category } from '../../Category';
-import { Table, Td, Tr } from '../../styles/table';
+import { Table } from '../../styles/table';
 import { enumValues } from '../../utils/enums';
-import {
-	BalutContext,
-	balutInitial,
-	balutReducer,
-	BalutValues,
-} from './state/BalutState';
-import { Row } from './Row';
 import { BoardControls } from './BoardControls';
-import { sumValues, finalPointScore } from './rules';
+import { FinalScore } from './FinalScore';
+import { FooterRow } from './FooterRow';
+import { HeaderRow } from './HeaderRow';
+import { Row } from './Row';
+import { categoryPoints, extraPointScore, sumValues } from './rules';
+import { BalutContext, balutInitial, balutReducer } from './state/BalutState';
 
 const categories = enumValues(Category);
 
 export const Board = () => {
 	const reducer = useCallback(balutReducer, []);
 	const [state, dispatch] = useReducer(reducer, balutInitial);
-	console.log(state.values);
+
+	const total = Object.keys(state.values)
+		.map((key) => sumValues(state.values[key]))
+		.reduce((a, b) => a + b);
+	const extraPoints = extraPointScore(total);
+	const totalPoints = enumValues(Category)
+		.map((key) => {
+			return categoryPoints(
+				key,
+				state.values[(Category[key] as unknown) as number],
+			);
+		})
+		.reduce((a, b) => a + b, 0);
 
 	return (
 		<BalutContext.Provider value={{ state, dispatch }}>
@@ -33,47 +42,10 @@ export const Board = () => {
 						/>
 					))}
 				</tbody>
-				<FooterRow values={state.values} />
+				<FooterRow extraPoints={extraPoints} total={total} />
 			</Table>
+			<FinalScore points={totalPoints} />
 			<BoardControls />
 		</BalutContext.Provider>
-	);
-};
-
-const HeaderRow = () => {
-	return (
-		<thead>
-			<Tr>
-				<NameCell colSpan={5}>Name: </NameCell>
-				<Td>Total</Td>
-				<Td>Points</Td>
-			</Tr>
-		</thead>
-	);
-};
-
-const NameCell = styled(Td)`
-	text-align: left;
-	border: none;
-`;
-
-interface FooterRowProps {
-	values: BalutValues;
-}
-
-const FooterRow = ({ values }: FooterRowProps) => {
-	const total = Object.keys(values)
-		.map((key) => sumValues(values[key]))
-		.reduce((a, b) => a + b);
-	const extraPoints = finalPointScore(total);
-
-	return (
-		<tfoot>
-			<Tr>
-				<td colSpan={5} />
-				<Td>{total}</Td>
-				<Td>{extraPoints}</Td>
-			</Tr>
-		</tfoot>
 	);
 };

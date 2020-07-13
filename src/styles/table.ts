@@ -1,10 +1,12 @@
 import styled from 'styled-components';
 import { borderColor } from './colors';
 
+export const maxWidth = '760px';
+
 export const Table = styled.table`
 	border-collapse: collapse;
 	width: 100%;
-	max-width: 760px;
+	max-width: ${maxWidth};
 `;
 
 export const Tr = styled.tr``;

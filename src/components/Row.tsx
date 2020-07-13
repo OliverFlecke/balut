@@ -1,23 +1,26 @@
-import React, { useState, useMemo } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { Category } from '../Category';
+import { Value, RowState } from './BalutState';
 import { Td, Th, Tr } from '../styles/table';
 
 interface RowProps {
 	category: Category;
+	values: RowState;
 }
 
-type RowState = [number, number, number, number];
-
-export const Row = ({ category: type }: RowProps) => {
-	const [values, setValues] = useState<RowState>([0, 0, 0, 0]);
-	const sum = useMemo(() => values.reduce((acc, x) => acc + x, 0), [values]);
+export const Row = ({ category, values }: RowProps) => {
+	const sum = useMemo(
+		() => values.reduce((acc, x) => (acc ?? 0) + (x ?? 0), 0),
+		[values],
+	);
+	const onChange = useCallback(() => {}, []);
 
 	return (
 		<Tr>
-			<Th>{Category[type]}</Th>
+			<Th>{Category[category]}</Th>
 			{values.map((value, i) => (
-				<Td key={i} contentEditable={true}>
-					{value !== 0 ? value : ''}
+				<Td key={i} contentEditable={true} onChange={onChange}>
+					{valueToString(value)}
 				</Td>
 			))}
 			<Td>{sum !== 0 ? sum : ''}</Td>
@@ -25,3 +28,13 @@ export const Row = ({ category: type }: RowProps) => {
 		</Tr>
 	);
 };
+
+function valueToString(value: Value): number | string {
+	if (value === null) {
+		return 'X';
+	} else if (value === undefined || value === 0) {
+		return '';
+	} else {
+		return value;
+	}
+}

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useReducer } from 'react';
 import styled, {
 	ThemeProvider,
 	css,
@@ -56,12 +56,12 @@ const GlobalStyle = createGlobalStyle`
 		margin: 0;
 		height: 100%;
 		width: 100%;
+		font-family: Futura;
 		${mainStyles}
 	}
 `;
 
 const H1 = styled.h1`
 	margin: 0;
-	font-family: Futura;
 	font-size: 3em;
 `;

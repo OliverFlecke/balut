@@ -2,7 +2,7 @@
 	"name": "balut-react",
 	"version": "0.1.0",
 	"author": "Oliver Fleckenstein",
-	"homepage": "balut.app",
+	"homepage": "https://balut.app",
 	"license": "MIT",
 	"repository": "https://github.com/OliverFlecke/balut-react",
 	"private": false,

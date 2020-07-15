@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { Button } from '../../styles/elements';
 import { Dice } from './Dice';
+import styled from 'styled-components';
 
 export const Game = () => {
 	const [roll, setRoll] = useState<Roll | undefined>();
@@ -28,15 +29,17 @@ export const Game = () => {
 
 	return (
 		<div>
-			{roll?.map((x, i) => (
-				<Dice
-					key={i}
-					dice={x}
-					index={i}
-					toggleLock={toggleLock}
-					locked={locked[i]}
-				/>
-			))}
+			<DiceContainer>
+				{roll?.map((x, i) => (
+					<Dice
+						key={i}
+						dice={x}
+						index={i}
+						toggleLock={toggleLock}
+						locked={locked[i]}
+					/>
+				))}
+			</DiceContainer>
 
 			<div>
 				<Button variant="primary" onClick={doRoll}>
@@ -46,6 +49,11 @@ export const Game = () => {
 		</div>
 	);
 };
+
+const DiceContainer = styled.div`
+	display: flex;
+	justify-content: center;
+`;
 
 type Roll = [number, number, number, number, number];
 type RollLock = [boolean, boolean, boolean, boolean, boolean];

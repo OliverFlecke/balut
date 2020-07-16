@@ -1,5 +1,8 @@
 import React, { useCallback, useContext } from 'react';
+import styled from 'styled-components';
+import theme from 'styled-theming';
 import { Category } from '../../Category';
+import { darkColors } from '../../styles/colors';
 import { Td } from '../../styles/table';
 import { StoreValue } from './state/actions/StoreValue';
 import { BalutContext, Value } from './state/BalutState';
@@ -31,7 +34,7 @@ export const Cell = ({ category, value, index }: CellProps) => {
 	);
 
 	return (
-		<Td
+		<TdCell
 			contentEditable={true}
 			onBlur={onChange}
 			dangerouslySetInnerHTML={{ __html: valueToString(value) }}
@@ -48,3 +51,11 @@ function valueToString(value: Value): string {
 		return value.toString();
 	}
 }
+
+const backgroundColor = theme('mode', {
+	dark: darkColors.secondaryBackgroundColor,
+});
+
+const TdCell = styled(Td)`
+	background-color: ${backgroundColor};
+`;

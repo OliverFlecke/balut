@@ -20,14 +20,16 @@ export const Board = () => {
 		.map((key) => sumValues(state.values[key]))
 		.reduce((a, b) => a + b);
 	const extraPoints = extraPointScore(total);
-	const totalPoints = enumValues(Category)
-		.map((key) => {
-			return categoryPoints(
-				key,
-				state.values[(Category[key] as unknown) as number],
-			);
-		})
-		.reduce((a, b) => a + b, 0);
+	const totalPoints =
+		extraPoints +
+		enumValues(Category)
+			.map((key) => {
+				return categoryPoints(
+					key,
+					state.values[(Category[key] as unknown) as number],
+				);
+			})
+			.reduce((a, b) => a + b, 0);
 
 	return (
 		<BalutContext.Provider value={{ state, dispatch }}>

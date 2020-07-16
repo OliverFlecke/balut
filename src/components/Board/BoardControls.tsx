@@ -20,5 +20,7 @@ export const BoardControls = () => {
 };
 
 const Wrapper = styled.div`
-	margin: 6px 0;
+	display: flex;
+	justify-content: right;
+	margin: 0 -6px -6px;
 `;

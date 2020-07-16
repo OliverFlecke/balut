@@ -1,34 +1,43 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useReducer, useState } from 'react';
+import styled from 'styled-components';
 import { Button } from '../../styles/elements';
 import { Dice } from './Dice';
-import styled from 'styled-components';
+import { RollAction } from './state/actions/RollAction';
+import { gameReducer, initialGameState } from './state/GameState';
+import { ToggleDiceAction } from './state/actions/ToggleDiceAction';
+import { doRoll } from './state/gameUtils';
+import { ResetRollAction } from './state/actions/ResetRollAction';
 
 export const Game = () => {
-	const [roll, setRoll] = useState<Roll | undefined>();
-	const [locked, setLocked] = useState(
-		[...Array(5)].map(() => false) as RollLock,
-	);
-	const doRoll = useCallback(() => {
+	const [state, dispatch] = useReducer(gameReducer, initialGameState);
+	const [roll, setRoll] = useState(state.roll);
+	useEffect(() => setRoll(state.roll), [state.roll]);
+
+	const executeRoll = useCallback(() => {
 		const interval = setInterval(() => {
-			setRoll(executeRoll(locked, roll));
+			setRoll(doRoll(state.locked, state.roll));
 		}, 50);
 
 		setTimeout(() => {
 			clearInterval(interval);
+			dispatch(new RollAction());
 		}, 1000);
-	}, [setRoll, locked, roll]);
+	}, [dispatch, state]);
 	const toggleLock = useCallback(
-		(index: number) => {
-			setLocked((ls) => ls.map((l, i) => (i === index ? !l : l)) as RollLock);
-		},
-		[setLocked],
+		(index: number) => dispatch(new ToggleDiceAction(index)),
+		[dispatch],
 	);
-
-	// eslint-disable-next-line react-hooks/exhaustive-deps
-	useEffect(() => setRoll(executeRoll(locked, roll)), []);
+	const newRoll = useCallback(() => {
+		dispatch(new ResetRollAction());
+	}, [dispatch]);
 
 	return (
-		<div>
+		<Container>
+			<h3>
+				{state.rollNumber === 0
+					? 'Roll your dice!'
+					: `Roll #${state.rollNumber} of 3`}
+			</h3>
 			<DiceContainer>
 				{roll?.map((x, i) => (
 					<Dice
@@ -36,34 +45,40 @@ export const Game = () => {
 						dice={x}
 						index={i}
 						toggleLock={toggleLock}
-						locked={locked[i]}
+						locked={state.locked[i]}
 					/>
 				))}
 			</DiceContainer>
 
-			<div>
-				<Button variant="primary" onClick={doRoll}>
+			<ButtonContainer>
+				<Button
+					variant={state.rollNumber === 3 ? 'disabled' : 'primary'}
+					onClick={executeRoll}
+					disabled={state.rollNumber === 3}
+				>
 					Roll
 				</Button>
-			</div>
-		</div>
+				<Button variant="primary" onClick={newRoll}>
+					New turn
+				</Button>
+			</ButtonContainer>
+		</Container>
 	);
 };
+
+const Container = styled.div`
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+`;
 
 const DiceContainer = styled.div`
 	display: flex;
 	justify-content: center;
+	flex-wrap: wrap;
 `;
 
-type Roll = [number, number, number, number, number];
-type RollLock = [boolean, boolean, boolean, boolean, boolean];
-
-function executeRoll(locked: RollLock, current?: Roll): Roll {
-	return (current ?? [...Array(5)]).map((v, i) =>
-		locked[i] ? v : randomDice(),
-	) as Roll;
-}
-
-function randomDice(): number {
-	return Math.floor(Math.random() * 6) + 1;
-}
+const ButtonContainer = styled.div`
+	display: flex;
+	margin: 6px -6px;
+`;

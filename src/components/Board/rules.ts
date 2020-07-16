@@ -4,7 +4,7 @@ import { RowState } from './state/BalutState';
 export function categoryPoints(category: Category, values: RowState): number {
 	switch (category) {
 		case Category.Balut:
-			return 2 * values.filter((x) => typeof x === 'number').length;
+			return 2 * values.filter((x) => typeof x === 'number' && x !== 0).length;
 		case Category.Choice:
 			return sumValues(values) >= 100 ? 2 : 0;
 		case Category.FullHouse:

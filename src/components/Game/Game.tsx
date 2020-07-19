@@ -8,6 +8,7 @@ import { ToggleDiceAction } from './state/actions/ToggleDiceAction';
 import { doRoll } from './state/gameUtils';
 import { ResetRollAction } from './state/actions/ResetRollAction';
 import { Board } from '../Board/Board';
+import { maxWidth } from '../../styles/table';
 
 export const Game = () => {
 	const [state, dispatch] = useReducer(gameReducer, initialGameState);

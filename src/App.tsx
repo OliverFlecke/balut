@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import styled, {
 	createGlobalStyle,
 	css,
@@ -6,6 +6,7 @@ import styled, {
 } from 'styled-components';
 import theme from 'styled-theming';
 import { Game } from './components/Game/Game';
+import { Rules } from './components/Rules';
 import { darkColors } from './styles/colors';
 
 function App() {
@@ -13,13 +14,13 @@ function App() {
 		localStorage.getItem('theme') ?? 'dark',
 	);
 
-	// const setTheme = useCallback(
-	// 	(theme: string) => {
-	// 		localStorage.setItem('theme', theme);
-	// 		setCurrentTheme(theme);
-	// 	},
-	// 	[setCurrentTheme],
-	// );
+	const setTheme = useCallback(
+		(theme: string) => {
+			localStorage.setItem('theme', theme);
+			setCurrentTheme(theme);
+		},
+		[setCurrentTheme],
+	);
 
 	return (
 		<ThemeProvider theme={{ mode: theme }}>
@@ -31,6 +32,7 @@ function App() {
 				<section>
 					<Game />
 				</section>
+				<Rules />
 			</Main>
 		</ThemeProvider>
 	);

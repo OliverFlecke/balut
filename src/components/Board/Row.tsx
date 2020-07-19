@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { Category } from '../../Category';
+import { Category, categoryToString } from '../../Category';
 import { Td, Th, Tr } from '../../styles/table';
 import { Roll } from '../Game/state/GameState';
 import { Cell } from './Cell';
@@ -45,10 +45,3 @@ export const Row = ({ category, values, roll }: RowProps) => {
 		</Tr>
 	);
 };
-
-function categoryToString(category: Category): string {
-	if (category === Category.FullHouse) {
-		return 'Full house';
-	}
-	return Category[category];
-}

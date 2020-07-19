@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Category, categoryToString } from '../Category';
-import { maxWidth } from '../styles/table';
+import { Li, Ul } from '../styles/elements';
 
 const points = [
 	[Category.Fours, '52 or more', 2],
@@ -66,16 +66,4 @@ const Container = styled.div`
 const Wrapper = styled.div`
 	width: 100%;
 	max-width: 350px;
-`;
-
-const Ul = styled.ul`
-	display: inline;
-	list-style-type: none;
-	padding: 0;
-	margin: 0;
-`;
-
-const Li = styled.li`
-	display: flex;
-	justify-content: space-between;
 `;

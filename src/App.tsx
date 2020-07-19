@@ -1,14 +1,16 @@
 import React, { useCallback, useState } from 'react';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import styled, {
 	createGlobalStyle,
 	css,
 	ThemeProvider,
 } from 'styled-components';
 import theme from 'styled-theming';
+import { Chat } from './components/Chat/Chat';
 import { Game } from './components/Game/Game';
+import { Navigation } from './components/Navigation';
 import { Rules } from './components/Rules';
 import { darkColors } from './styles/colors';
-import { Chat } from './components/Chat/Chat';
 
 function App() {
 	const [theme, setCurrentTheme] = useState<string>(
@@ -26,18 +28,28 @@ function App() {
 	return (
 		<ThemeProvider theme={{ mode: theme }}>
 			<GlobalStyle />
-			<Main>
-				<header>
-					<H1>Balut</H1>
-				</header>
-				<section>
-					<Game />
-				</section>
-				<section>
-					<Chat />
-				</section>
-				<Rules />
-			</Main>
+			<Router>
+				<Main>
+					<Header>
+						<H1>Balut</H1>
+						<Navigation />
+					</Header>
+
+					<section>
+						<Switch>
+							<Route path="/chat">
+								<Chat />
+							</Route>
+							<Route path="/rules">
+								<Rules />
+							</Route>
+							<Route path="/">
+								<Game />
+							</Route>
+						</Switch>
+					</section>
+				</Main>
+			</Router>
 		</ThemeProvider>
 	);
 }
@@ -67,7 +79,14 @@ const GlobalStyle = createGlobalStyle`
 	}
 `;
 
+const Header = styled.header`
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+`;
+
 const H1 = styled.h1`
 	margin: 0;
 	font-size: 3em;
+	text-decoration: none !important;
 `;

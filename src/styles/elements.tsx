@@ -20,3 +20,15 @@ export const Button = styled.button`
 	border-radius: 6px;
 	font-size: 1.2em;
 `;
+
+export const Ul = styled.ul`
+	display: inline;
+	list-style-type: none;
+	padding: 0;
+	margin: 0;
+`;
+
+export const Li = styled.li`
+	display: flex;
+	justify-content: space-between;
+`;

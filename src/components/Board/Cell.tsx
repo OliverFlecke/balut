@@ -52,4 +52,6 @@ const TdCell = styled(Td)`
 	background-color: ${backgroundColor};
 	color: ${color};
 	user-select: none;
+	padding: 0 4px;
+	height: 2em;
 `;

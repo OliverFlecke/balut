@@ -16,24 +16,6 @@ interface CellProps {
 
 export const Cell = ({ category, value, index, suggestion }: CellProps) => {
 	const { dispatch } = useContext(BalutContext);
-
-	// const onChange = useCallback(
-	// 	(e: React.FormEvent<HTMLTableDataCellElement>) => {
-	// 		const v = e.currentTarget.textContent;
-	// 		if (v === null) {
-	// 			return;
-	// 		}
-
-	// 		const numberValue = Number(v);
-	// 		if (v?.toUpperCase() === 'X') {
-	// 			dispatch(new StoreValue(category, index, v.toUpperCase() as Value));
-	// 		} else if (!isNaN(numberValue)) {
-	// 			dispatch(new StoreValue(category, index, numberValue));
-	// 		}
-	// 	},
-	// 	[category, dispatch, index],
-	// );
-
 	const onClick = useCallback(() => {
 		if (suggestion) {
 			dispatch(new StoreValue(category, index, suggestion));
@@ -41,13 +23,7 @@ export const Cell = ({ category, value, index, suggestion }: CellProps) => {
 	}, [dispatch, index, suggestion, category]);
 
 	return (
-		<TdCell
-			onClick={onClick}
-			variant={suggestion ? 'suggestion' : 'default'}
-			// contentEditable={true}
-			// onBlur={onChange}
-			// dangerouslySetInnerHTML={{ __html: valueToString(value ?? suggestion) }}
-		>
+		<TdCell onClick={onClick} variant={suggestion ? 'suggestion' : 'default'}>
 			{valueToString(value !== null ? value : suggestion)}
 		</TdCell>
 	);

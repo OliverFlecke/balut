@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Category } from '../../Category';
 import { Td, Th, Tr } from '../../styles/table';
 import { Roll } from '../Game/state/GameState';
@@ -13,6 +13,7 @@ interface RowProps {
 }
 
 export const Row = ({ category, values, roll }: RowProps) => {
+	const title = useMemo(() => categoryToString(category), [category]);
 	const sum = sumValues(values);
 	const points = categoryPoints(category, values);
 	const suggestion = calculateSuggestion(category, roll);
@@ -20,7 +21,7 @@ export const Row = ({ category, values, roll }: RowProps) => {
 
 	return (
 		<Tr>
-			<Th>{Category[category]}</Th>
+			<Th>{title}</Th>
 			{values.map((value, i) => {
 				const thisIsFirst = first && value === null;
 				if (thisIsFirst) {
@@ -44,3 +45,10 @@ export const Row = ({ category, values, roll }: RowProps) => {
 		</Tr>
 	);
 };
+
+function categoryToString(category: Category): string {
+	if (category === Category.FullHouse) {
+		return 'Full house';
+	}
+	return Category[category];
+}

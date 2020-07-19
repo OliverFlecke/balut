@@ -13,3 +13,7 @@ export function doRoll(locked: RollLock, current?: Roll): Roll {
 export function resetLocked(): RollLock {
 	return [...Array(5)].map(() => false) as RollLock;
 }
+
+export function sumNumbers(roll: number[]) {
+	return roll.reduce((acc, v) => acc + v, 0);
+}

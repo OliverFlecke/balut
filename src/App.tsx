@@ -5,9 +5,8 @@ import styled, {
 	ThemeProvider,
 } from 'styled-components';
 import theme from 'styled-theming';
-import { Board } from './components/Board/Board';
-import { darkColors } from './styles/colors';
 import { Game } from './components/Game/Game';
+import { darkColors } from './styles/colors';
 
 function App() {
 	const [theme, setCurrentTheme] = useState<string>(
@@ -29,9 +28,6 @@ function App() {
 				<header>
 					<H1>Balut</H1>
 				</header>
-				<section>
-					<Board />
-				</section>
 				<section>
 					<Game />
 				</section>

@@ -38,5 +38,5 @@ export const Dice = ({ dice, locked, index, toggleLock }: DiceProps) => {
 };
 
 const diceStyles: IconBaseProps = {
-	size: 40,
+	size: 60,
 };

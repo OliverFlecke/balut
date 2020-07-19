@@ -4,6 +4,6 @@ export enum Category {
 	Sixes,
 	Straight,
 	FullHouse,
-	Choice,
+	Chance,
 	Balut,
 }

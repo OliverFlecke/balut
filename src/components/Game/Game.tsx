@@ -7,6 +7,7 @@ import { gameReducer, initialGameState } from './state/GameState';
 import { ToggleDiceAction } from './state/actions/ToggleDiceAction';
 import { doRoll } from './state/gameUtils';
 import { ResetRollAction } from './state/actions/ResetRollAction';
+import { Board } from '../Board/Board';
 
 export const Game = () => {
 	const [state, dispatch] = useReducer(gameReducer, initialGameState);
@@ -33,6 +34,7 @@ export const Game = () => {
 
 	return (
 		<Container>
+			<Board roll={state.roll} />
 			<h3>
 				{state.rollNumber === 0
 					? 'Roll your dice!'

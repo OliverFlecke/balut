@@ -9,10 +9,15 @@ import { HeaderRow } from './HeaderRow';
 import { Row } from './Row';
 import { categoryPoints, extraPointScore, sumValues } from './rules';
 import { BalutContext, balutInitial, balutReducer } from './state/BalutState';
+import { Roll } from '../Game/state/GameState';
 
 const categories = enumValues(Category);
 
-export const Board = () => {
+interface BoardProps {
+	roll?: Roll;
+}
+
+export const Board = ({ roll }: BoardProps) => {
 	const reducer = useCallback(balutReducer, []);
 	const [state, dispatch] = useReducer(reducer, balutInitial);
 
@@ -41,6 +46,7 @@ export const Board = () => {
 							key={x}
 							category={x}
 							values={state.values[(Category[x] as unknown) as number]}
+							roll={roll}
 						/>
 					))}
 				</tbody>

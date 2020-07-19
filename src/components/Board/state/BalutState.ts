@@ -3,10 +3,10 @@ import { enumStrings } from '../../../utils/enums';
 import { Category } from '../../../Category';
 
 // Type to represent a entry on the Balut board.
-// 'undefined' = cell unused
+// 'null' = cell unused
 // 'X' = cell scratched
 // else the value entered
-export type Value = number | 'X' | undefined;
+export type Value = number | 'X' | null;
 export type RowState = [Value, Value, Value, Value];
 
 export interface BalutState {
@@ -23,6 +23,7 @@ export function balutReducer(
 	action: BalutAction,
 ): BalutState {
 	const newState = action.reduce(state);
+	console.log(newState);
 	localStorage.setItem('state', JSON.stringify(newState));
 
 	return newState;
@@ -56,7 +57,7 @@ function initState(): BalutState {
 export function initValues() {
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	return enumStrings(Category).reduce((acc: any, key) => {
-		acc[key] = [undefined, undefined, undefined, undefined];
+		acc[key] = [null, null, null, null];
 
 		return acc;
 	}, {});

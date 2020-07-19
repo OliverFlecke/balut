@@ -10,39 +10,50 @@ import { BalutContext, Value } from './state/BalutState';
 interface CellProps {
 	category: Category;
 	value: Value;
+	suggestion?: Value;
 	index: number;
 }
 
-export const Cell = ({ category, value, index }: CellProps) => {
+export const Cell = ({ category, value, index, suggestion }: CellProps) => {
 	const { dispatch } = useContext(BalutContext);
 
-	const onChange = useCallback(
-		(e: React.FormEvent<HTMLTableDataCellElement>) => {
-			const v = e.currentTarget.textContent;
-			if (v === null) {
-				return;
-			}
+	// const onChange = useCallback(
+	// 	(e: React.FormEvent<HTMLTableDataCellElement>) => {
+	// 		const v = e.currentTarget.textContent;
+	// 		if (v === null) {
+	// 			return;
+	// 		}
 
-			const numberValue = Number(v);
-			if (v?.toUpperCase() === 'X') {
-				dispatch(new StoreValue(category, index, v.toUpperCase() as Value));
-			} else if (!isNaN(numberValue)) {
-				dispatch(new StoreValue(category, index, numberValue));
-			}
-		},
-		[category, dispatch, index],
-	);
+	// 		const numberValue = Number(v);
+	// 		if (v?.toUpperCase() === 'X') {
+	// 			dispatch(new StoreValue(category, index, v.toUpperCase() as Value));
+	// 		} else if (!isNaN(numberValue)) {
+	// 			dispatch(new StoreValue(category, index, numberValue));
+	// 		}
+	// 	},
+	// 	[category, dispatch, index],
+	// );
+
+	const onClick = useCallback(() => {
+		if (suggestion) {
+			dispatch(new StoreValue(category, index, suggestion));
+		}
+	}, [dispatch, index, suggestion, category]);
 
 	return (
 		<TdCell
-			contentEditable={true}
-			onBlur={onChange}
-			dangerouslySetInnerHTML={{ __html: valueToString(value) }}
-		/>
+			onClick={onClick}
+			variant={suggestion ? 'suggestion' : 'default'}
+			// contentEditable={true}
+			// onBlur={onChange}
+			// dangerouslySetInnerHTML={{ __html: valueToString(value ?? suggestion) }}
+		>
+			{valueToString(value !== null ? value : suggestion)}
+		</TdCell>
 	);
 };
 
-function valueToString(value: Value): string {
+function valueToString(value?: Value): string {
 	if (value === undefined || value === null || value === 0) {
 		return '';
 	} else if (value === 'X') {
@@ -56,6 +67,13 @@ const backgroundColor = theme('mode', {
 	dark: darkColors.secondaryBackgroundColor,
 });
 
+const color = theme.variants('mode', 'variant', {
+	default: { dark: darkColors.color },
+	suggestion: { dark: darkColors.suggestion },
+});
+
 const TdCell = styled(Td)`
 	background-color: ${backgroundColor};
+	color: ${color};
+	user-select: none;
 `;

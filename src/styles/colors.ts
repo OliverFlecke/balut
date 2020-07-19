@@ -5,6 +5,7 @@ export const darkColors = {
 	color: '#CCC',
 	backgroundColor: '#000',
 	secondaryBackgroundColor: '#222',
+	suggestion: '#F00',
 };
 
 export const borderColor = theme('mode', {

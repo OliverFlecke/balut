@@ -1,14 +1,13 @@
 import React, { useCallback, useEffect, useReducer, useState } from 'react';
 import styled from 'styled-components';
 import { Button } from '../../styles/elements';
-import { Dice } from './Dice';
-import { RollAction } from './state/actions/RollAction';
-import { gameReducer, initialGameState } from './state/GameState';
-import { ToggleDiceAction } from './state/actions/ToggleDiceAction';
-import { doRoll } from './state/gameUtils';
-import { ResetRollAction } from './state/actions/ResetRollAction';
 import { Board } from '../Board/Board';
-import { maxWidth } from '../../styles/table';
+import { Dice } from './Dice';
+import { ResetRollAction } from './state/actions/ResetRollAction';
+import { RollAction } from './state/actions/RollAction';
+import { ToggleDiceAction } from './state/actions/ToggleDiceAction';
+import { gameReducer, initialGameState } from './state/GameState';
+import { doRoll } from './state/gameUtils';
 
 export const Game = () => {
 	const [state, dispatch] = useReducer(gameReducer, initialGameState);

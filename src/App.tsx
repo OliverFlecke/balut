@@ -8,6 +8,7 @@ import theme from 'styled-theming';
 import { Game } from './components/Game/Game';
 import { Rules } from './components/Rules';
 import { darkColors } from './styles/colors';
+import { Chat } from './components/Chat/Chat';
 
 function App() {
 	const [theme, setCurrentTheme] = useState<string>(
@@ -31,6 +32,9 @@ function App() {
 				</header>
 				<section>
 					<Game />
+				</section>
+				<section>
+					<Chat />
 				</section>
 				<Rules />
 			</Main>

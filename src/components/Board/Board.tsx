@@ -1,4 +1,3 @@
-import * as signalR from '@microsoft/signalr';
 import React, { useCallback, useReducer } from 'react';
 import { Category } from '../../Category';
 import { Table } from '../../styles/table';
@@ -13,16 +12,6 @@ import { categoryPoints, extraPointScore, sumValues } from './rules';
 import { BalutContext, balutInitial, balutReducer } from './state/BalutState';
 
 const categories = enumValues(Category);
-
-const connection = new signalR.HubConnectionBuilder().withUrl('/hub').build();
-
-connection.on('messageReceived', (username, message) => {
-	console.log(message);
-});
-
-connection
-	.start()
-	.then(() => connection.invoke('newMessage', 1, 'hello world'));
 
 interface BoardProps {
 	roll?: Roll;

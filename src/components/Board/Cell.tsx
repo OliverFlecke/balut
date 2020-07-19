@@ -36,6 +36,7 @@ export const Cell = ({ category, value, index }: CellProps) => {
 	return (
 		<TdCell
 			contentEditable={true}
+			inputMode="numeric"
 			onBlur={onChange}
 			dangerouslySetInnerHTML={{ __html: valueToString(value) }}
 		/>

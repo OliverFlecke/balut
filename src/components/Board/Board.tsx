@@ -9,8 +9,19 @@ import { HeaderRow } from './HeaderRow';
 import { Row } from './Row';
 import { categoryPoints, extraPointScore, sumValues } from './rules';
 import { BalutContext, balutInitial, balutReducer } from './state/BalutState';
+import * as signalR from '@microsoft/signalr';
 
 const categories = enumValues(Category);
+
+const connection = new signalR.HubConnectionBuilder().withUrl('/hub').build();
+
+connection.on('messageReceived', (username, message) => {
+	console.log(message);
+});
+
+connection
+	.start()
+	.then(() => connection.invoke('newMessage', 1, 'hello world'));
 
 export const Board = () => {
 	const reducer = useCallback(balutReducer, []);

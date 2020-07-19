@@ -13,7 +13,7 @@ export const BoardControls = () => {
 	return (
 		<Wrapper>
 			<Button variant="primary" onClick={clearBoard}>
-				Clear
+				New game
 			</Button>
 		</Wrapper>
 	);

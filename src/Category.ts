@@ -4,6 +4,13 @@ export enum Category {
 	Sixes,
 	Straight,
 	FullHouse,
-	Choice,
+	Chance,
 	Balut,
+}
+
+export function categoryToString(category: Category): string {
+	if (category === Category.FullHouse) {
+		return 'Full house';
+	}
+	return Category[category];
 }

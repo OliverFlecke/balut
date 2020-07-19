@@ -7,6 +7,8 @@ import { gameReducer, initialGameState } from './state/GameState';
 import { ToggleDiceAction } from './state/actions/ToggleDiceAction';
 import { doRoll } from './state/gameUtils';
 import { ResetRollAction } from './state/actions/ResetRollAction';
+import { Board } from '../Board/Board';
+import { maxWidth } from '../../styles/table';
 
 export const Game = () => {
 	const [state, dispatch] = useReducer(gameReducer, initialGameState);
@@ -30,9 +32,11 @@ export const Game = () => {
 	const newRoll = useCallback(() => {
 		dispatch(new ResetRollAction());
 	}, [dispatch]);
+	const onValueWritten = useCallback(() => newRoll(), [newRoll]);
 
 	return (
 		<Container>
+			<Board roll={state.roll} onValueWritten={onValueWritten} />
 			<h3>
 				{state.rollNumber === 0
 					? 'Roll your dice!'
@@ -58,9 +62,9 @@ export const Game = () => {
 				>
 					Roll
 				</Button>
-				<Button variant="primary" onClick={newRoll}>
+				{/* <Button variant="primary" onClick={newRoll}>
 					New turn
-				</Button>
+				</Button> */}
 			</ButtonContainer>
 		</Container>
 	);

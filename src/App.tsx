@@ -1,26 +1,26 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import styled, {
 	createGlobalStyle,
 	css,
 	ThemeProvider,
 } from 'styled-components';
 import theme from 'styled-theming';
-import { Board } from './components/Board/Board';
-import { darkColors } from './styles/colors';
 import { Game } from './components/Game/Game';
+import { Rules } from './components/Rules';
+import { darkColors } from './styles/colors';
 
 function App() {
 	const [theme, setCurrentTheme] = useState<string>(
 		localStorage.getItem('theme') ?? 'dark',
 	);
 
-	// const setTheme = useCallback(
-	// 	(theme: string) => {
-	// 		localStorage.setItem('theme', theme);
-	// 		setCurrentTheme(theme);
-	// 	},
-	// 	[setCurrentTheme],
-	// );
+	const setTheme = useCallback(
+		(theme: string) => {
+			localStorage.setItem('theme', theme);
+			setCurrentTheme(theme);
+		},
+		[setCurrentTheme],
+	);
 
 	return (
 		<ThemeProvider theme={{ mode: theme }}>
@@ -30,11 +30,9 @@ function App() {
 					<H1>Balut</H1>
 				</header>
 				<section>
-					<Board />
-				</section>
-				<section>
 					<Game />
 				</section>
+				<Rules />
 			</Main>
 		</ThemeProvider>
 	);

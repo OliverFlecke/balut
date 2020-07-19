@@ -1,7 +1,9 @@
+import * as signalR from '@microsoft/signalr';
 import React, { useCallback, useReducer } from 'react';
 import { Category } from '../../Category';
 import { Table } from '../../styles/table';
 import { enumValues } from '../../utils/enums';
+import { Roll } from '../Game/state/GameState';
 import { BoardControls } from './BoardControls';
 import { FinalScore } from './FinalScore';
 import { FooterRow } from './FooterRow';
@@ -9,7 +11,6 @@ import { HeaderRow } from './HeaderRow';
 import { Row } from './Row';
 import { categoryPoints, extraPointScore, sumValues } from './rules';
 import { BalutContext, balutInitial, balutReducer } from './state/BalutState';
-import * as signalR from '@microsoft/signalr';
 
 const categories = enumValues(Category);
 
@@ -23,8 +24,13 @@ connection
 	.start()
 	.then(() => connection.invoke('newMessage', 1, 'hello world'));
 
-export const Board = () => {
-	const reducer = useCallback(balutReducer, []);
+interface BoardProps {
+	roll?: Roll;
+	onValueWritten?: () => void;
+}
+
+export const Board = ({ roll, onValueWritten }: BoardProps) => {
+	const reducer = useCallback(balutReducer({ onValueWritten }), []);
 	const [state, dispatch] = useReducer(reducer, balutInitial);
 
 	const total = Object.keys(state.values)
@@ -52,6 +58,7 @@ export const Board = () => {
 							key={x}
 							category={x}
 							values={state.values[(Category[x] as unknown) as number]}
+							roll={roll}
 						/>
 					))}
 				</tbody>

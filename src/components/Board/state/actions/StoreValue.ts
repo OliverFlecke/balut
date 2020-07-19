@@ -13,7 +13,6 @@ export class StoreValue implements BalutAction {
 	}
 
 	reduce(state: BalutState): BalutState {
-		console.log(`Changing value: ${this.value}`);
 		const values: BalutValues = {};
 		Object.assign(values, state.values);
 		values[Category[this.category]][this.index] = this.value;

@@ -15,10 +15,11 @@ const categories = enumValues(Category);
 
 interface BoardProps {
 	roll?: Roll;
+	onValueWritten?: () => void;
 }
 
-export const Board = ({ roll }: BoardProps) => {
-	const reducer = useCallback(balutReducer, []);
+export const Board = ({ roll, onValueWritten }: BoardProps) => {
+	const reducer = useCallback(balutReducer({ onValueWritten }), []);
 	const [state, dispatch] = useReducer(reducer, balutInitial);
 
 	const total = Object.keys(state.values)

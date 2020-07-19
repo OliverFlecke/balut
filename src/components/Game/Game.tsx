@@ -31,10 +31,11 @@ export const Game = () => {
 	const newRoll = useCallback(() => {
 		dispatch(new ResetRollAction());
 	}, [dispatch]);
+	const onValueWritten = useCallback(() => newRoll(), [newRoll]);
 
 	return (
 		<Container>
-			<Board roll={state.roll} />
+			<Board roll={state.roll} onValueWritten={onValueWritten} />
 			<h3>
 				{state.rollNumber === 0
 					? 'Roll your dice!'
@@ -60,9 +61,9 @@ export const Game = () => {
 				>
 					Roll
 				</Button>
-				<Button variant="primary" onClick={newRoll}>
+				{/* <Button variant="primary" onClick={newRoll}>
 					New turn
-				</Button>
+				</Button> */}
 			</ButtonContainer>
 		</Container>
 	);

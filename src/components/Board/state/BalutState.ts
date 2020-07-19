@@ -1,6 +1,7 @@
 import React from 'react';
 import { enumStrings } from '../../../utils/enums';
 import { Category } from '../../../Category';
+import { StoreValue } from './actions/StoreValue';
 
 // Type to represent a entry on the Balut board.
 // 'null' = cell unused
@@ -18,15 +19,23 @@ export interface BalutAction {
 	reduce(state: BalutState): BalutState;
 }
 
-export function balutReducer(
-	state: BalutState,
-	action: BalutAction,
-): BalutState {
-	const newState = action.reduce(state);
-	console.log(newState);
-	localStorage.setItem('state', JSON.stringify(newState));
+interface BalutReducerArgs {
+	onValueWritten?: () => void;
+}
 
-	return newState;
+export function balutReducer({
+	onValueWritten,
+}: BalutReducerArgs): (state: BalutState, action: BalutAction) => BalutState {
+	return (state, action) => {
+		const newState = action.reduce(state);
+		localStorage.setItem('state', JSON.stringify(newState));
+
+		if (action instanceof StoreValue && onValueWritten) {
+			onValueWritten();
+		}
+
+		return newState;
+	};
 }
 
 export const balutInitial: BalutState = initState();

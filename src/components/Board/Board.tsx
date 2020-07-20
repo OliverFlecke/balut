@@ -1,44 +1,42 @@
-import React, { useCallback, useReducer } from 'react';
+import React from 'react';
 import { Category } from '../../Category';
 import { Table } from '../../styles/table';
 import { enumValues } from '../../utils/enums';
-import { Roll } from '../Game/state/GameState';
-import { BoardControls } from './BoardControls';
+import { Roll, WriteValue } from '../Game/state/GameState';
+import { sumNumbers } from '../Game/state/gameUtils';
 import { FinalScore } from './FinalScore';
 import { FooterRow } from './FooterRow';
 import { HeaderRow } from './HeaderRow';
 import { Row } from './Row';
 import { categoryPoints, extraPointScore, sumValues } from './rules';
-import { BalutContext, balutInitial, balutReducer } from './state/BalutState';
+import { BalutValues } from './state/BalutState';
 
 const categories = enumValues(Category);
 
 interface BoardProps {
+	values: BalutValues;
 	roll?: Roll;
-	onValueWritten?: () => void;
+	writeValue?: WriteValue;
 }
 
-export const Board = ({ roll, onValueWritten }: BoardProps) => {
-	const reducer = useCallback(balutReducer({ onValueWritten }), []);
-	const [state, dispatch] = useReducer(reducer, balutInitial);
-
-	const total = Object.keys(state.values)
-		.map((key) => sumValues(state.values[key]))
-		.reduce((a, b) => a + b);
+export const Board = ({ values, roll, writeValue }: BoardProps) => {
+	const total = sumNumbers(
+		Object.keys(values).map((key) => sumValues(values[key])),
+	);
 	const extraPoints = extraPointScore(total);
 	const totalPoints =
 		extraPoints +
-		enumValues(Category)
-			.map((key) => {
+		sumNumbers(
+			enumValues(Category).map((key) => {
 				return categoryPoints(
 					key,
-					state.values[(Category[key] as unknown) as number],
+					values[(Category[key] as unknown) as number],
 				);
-			})
-			.reduce((a, b) => a + b, 0);
+			}),
+		);
 
 	return (
-		<BalutContext.Provider value={{ state, dispatch }}>
+		<>
 			<Table>
 				<HeaderRow />
 				<tbody>
@@ -46,15 +44,15 @@ export const Board = ({ roll, onValueWritten }: BoardProps) => {
 						<Row
 							key={x}
 							category={x}
-							values={state.values[(Category[x] as unknown) as number]}
+							values={values[(Category[x] as unknown) as number]}
 							roll={roll}
+							writeValue={writeValue}
 						/>
 					))}
 				</tbody>
 				<FooterRow extraPoints={extraPoints} total={total} />
 			</Table>
 			<FinalScore points={totalPoints} />
-			<BoardControls />
-		</BalutContext.Provider>
+		</>
 	);
 };

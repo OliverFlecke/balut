@@ -1,23 +1,18 @@
-import React, { useCallback, useContext } from 'react';
-import { Button } from '../../styles/elements';
-import { ClearBoard } from './state/actions/ClearBoard';
-import { BalutContext } from './state/BalutState';
+import React from 'react';
 import styled from 'styled-components';
+import { Button } from '../../styles/elements';
 
-export const BoardControls = () => {
-	const { dispatch } = useContext(BalutContext);
-	const clearBoard = useCallback(() => {
-		dispatch(new ClearBoard());
-	}, [dispatch]);
+interface BoardControlsProps {
+	clearBoard?: () => void;
+}
 
-	return (
-		<Wrapper>
-			<Button variant="primary" onClick={clearBoard}>
-				New game
-			</Button>
-		</Wrapper>
-	);
-};
+export const BoardControls = ({ clearBoard }: BoardControlsProps) => (
+	<Wrapper>
+		<Button variant="primary" onClick={clearBoard}>
+			New game
+		</Button>
+	</Wrapper>
+);
 
 const Wrapper = styled.div`
 	display: flex;

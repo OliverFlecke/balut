@@ -12,7 +12,6 @@ export type RowState = [Value, Value, Value, Value];
 
 export interface BalutState {
 	values: BalutValues;
-	name?: string;
 }
 
 export interface BalutAction {
@@ -55,7 +54,9 @@ function initState(): BalutState {
 	const stored = localStorage.getItem('state');
 
 	if (stored !== null) {
-		return JSON.parse(stored) as BalutState;
+		try {
+			return JSON.parse(stored) as BalutState;
+		} catch {}
 	}
 
 	return {

@@ -1,16 +1,25 @@
 import React, { useCallback, useEffect, useReducer, useState } from 'react';
 import styled from 'styled-components';
+import { Category } from '../../Category';
 import { Button } from '../../styles/elements';
 import { Board } from '../Board/Board';
+import { StoreValue } from '../Board/state/actions/StoreValue';
+import { balutInitial, balutReducer, Value } from '../Board/state/BalutState';
 import { Dice } from './Dice';
 import { ResetRollAction } from './state/actions/ResetRollAction';
 import { RollAction } from './state/actions/RollAction';
 import { ToggleDiceAction } from './state/actions/ToggleDiceAction';
 import { gameReducer, initialGameState } from './state/GameState';
 import { doRoll } from './state/gameUtils';
+import { BoardControls } from '../Board/BoardControls';
+import { ClearBoard } from '../Board/state/actions/ClearBoard';
 
 export const Game = () => {
 	const [state, dispatch] = useReducer(gameReducer, initialGameState);
+	const [balutState, balutDispatch] = useReducer(
+		balutReducer({}),
+		balutInitial,
+	);
 	const [roll, setRoll] = useState(state.roll);
 	useEffect(() => setRoll(state.roll), [state.roll]);
 
@@ -31,11 +40,25 @@ export const Game = () => {
 	const newRoll = useCallback(() => {
 		dispatch(new ResetRollAction());
 	}, [dispatch]);
-	const onValueWritten = useCallback(() => newRoll(), [newRoll]);
+	const writeValue = useCallback(
+		(category: Category, index: number, value: Value) => {
+			balutDispatch(new StoreValue(category, index, value));
+			newRoll();
+		},
+		[balutDispatch, newRoll],
+	);
+	const clearBoard = useCallback(() => {
+		balutDispatch(new ClearBoard());
+		dispatch(new ResetRollAction());
+	}, [balutDispatch, dispatch]);
 
 	return (
 		<Container>
-			<Board roll={state.roll} onValueWritten={onValueWritten} />
+			<Board
+				roll={state.roll}
+				values={balutState.values}
+				writeValue={writeValue}
+			/>
 			<h3>
 				{state.rollNumber === 0
 					? 'Roll your dice!'
@@ -61,10 +84,9 @@ export const Game = () => {
 				>
 					Roll
 				</Button>
-				{/* <Button variant="primary" onClick={newRoll}>
-					New turn
-				</Button> */}
 			</ButtonContainer>
+
+			<BoardControls clearBoard={clearBoard} />
 		</Container>
 	);
 };

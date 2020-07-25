@@ -22,15 +22,5 @@ export function reducer(state: AppState, action: Action): AppState {
 }
 
 export const initial: AppState = {
-	name: 'oliver',
-	players: [
-		{
-			name: 'Alice',
-			values: initValues(),
-		},
-		{
-			name: 'Bob',
-			values: initValues(),
-		},
-	],
+	players: [],
 };

@@ -4,7 +4,11 @@ import styled from 'styled-components';
 import { Li, Ul } from '../styles/elements';
 import { navColor } from '../styles/colors';
 
-export const Navigation = () => (
+interface NavigationProps {
+	showMultiplayer: () => void;
+}
+
+export const Navigation = ({ showMultiplayer }: NavigationProps) => (
 	<Nav>
 		<NavUl>
 			<NavLi>
@@ -13,9 +17,9 @@ export const Navigation = () => (
 			<NavLi>
 				<Link to="/rules">Rules</Link>
 			</NavLi>
-			{/* <NavLi>
-				<Link to="/chat">Chat</Link>
-			</NavLi> */}
+			<NavLi>
+				<a onClick={showMultiplayer}>Multiplayer</a>
+			</NavLi>
 		</NavUl>
 	</Nav>
 );
@@ -24,6 +28,9 @@ const Nav = styled.nav`
 	a {
 		color: ${navColor};
 		text-decoration: none;
+		font-size: 1.2em;
+		margin: 0 8px;
+		cursor: pointer;
 	}
 `;
 
@@ -32,7 +39,4 @@ const NavUl = styled(Ul)`
 	flex-direction: row;
 `;
 
-const NavLi = styled(Li)`
-	margin: 0 8px;
-	font-size: 1.2em;
-`;
+const NavLi = styled(Li)``;

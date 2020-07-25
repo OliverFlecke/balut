@@ -1,6 +1,6 @@
 import { Action, AppState } from './AppState';
 import { HubConnection } from '@microsoft/signalr';
-import { BalutValues } from '../components/Board/state/BalutState';
+import { BalutValues, initValues } from '../components/Board/state/BalutState';
 
 export class SetConnectionAction implements Action {
 	connection: HubConnection;
@@ -31,6 +31,20 @@ export class SetSessionAction implements Action {
 	}
 }
 
+export class SetNameAction implements Action {
+	name: string;
+	constructor(name: string) {
+		this.name = name;
+	}
+
+	reduce(state: AppState): AppState {
+		return {
+			...state,
+			name: this.name,
+		};
+	}
+}
+
 export class UpdatePlayerStateAction implements Action {
 	values: BalutValues;
 	name: string;
@@ -40,6 +54,7 @@ export class UpdatePlayerStateAction implements Action {
 	}
 
 	reduce(state: AppState): AppState {
+		console.log(`Updating player state for {this.name}`);
 		return {
 			...state,
 			players: state.players.map((player) => {
@@ -50,6 +65,22 @@ export class UpdatePlayerStateAction implements Action {
 					  }
 					: player;
 			}),
+		};
+	}
+}
+
+export class AddPlayerAction implements Action {
+	name: string;
+	constructor(name: string) {
+		this.name = name;
+	}
+
+	reduce(state: AppState): AppState {
+		return {
+			...state,
+			players: state.players
+				.filter((p) => p.name !== this.name)
+				.concat({ name: this.name, values: initValues() }),
 		};
 	}
 }

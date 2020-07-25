@@ -1,16 +1,18 @@
 import { HubConnection } from '@microsoft/signalr';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
-import { PlayerState } from '../state/AppState';
+import { PlayerState, Action } from '../state/AppState';
 import { Board } from './Board/Board';
 import { Game } from './Game/Game';
+import { UpdatePlayerStateAction } from '../state/AppActions';
 
 interface MultiplayerGameProps {
 	name: string;
 	players: PlayerState[];
 	connection: HubConnection;
 	session: string;
+	dispatch: React.Dispatch<Action>;
 }
 
 export const MultiplayerGame = ({
@@ -18,9 +20,15 @@ export const MultiplayerGame = ({
 	players,
 	connection,
 	session,
+	dispatch,
 }: MultiplayerGameProps) => {
 	const [index, setIndex] = useState(0);
-	const onSelect = useCallback(() => {}, []);
+	const onSelect = useCallback(
+		(index) => {
+			setIndex(index);
+		},
+		[setIndex],
+	);
 
 	const onTurnFinished = useCallback(
 		(values) => {
@@ -28,6 +36,11 @@ export const MultiplayerGame = ({
 		},
 		[connection, session, name],
 	);
+	useEffect(() => {
+		connection.on('newState', (name, values) => {
+			dispatch(new UpdatePlayerStateAction(name, values));
+		});
+	}, [connection, dispatch]);
 
 	return (
 		<div>

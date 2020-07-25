@@ -21,12 +21,6 @@ export const Chat = ({ username }: ChatProps) => {
 		connection.on('messageReceived', (username, message) => {
 			console.log(`${username}: ${message}`);
 		});
-		connection.on('joinedSession', (session, username) => {
-			console.log(`${username} joined ${session}`);
-		});
-		connection.on('createdSession', (session) => {
-			console.log(session);
-		});
 	}, [connection]);
 
 	const onKeyDown = useCallback(

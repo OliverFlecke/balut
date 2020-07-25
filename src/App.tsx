@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useReducer, useState } from 'react';
+import React, { useCallback, useReducer, useState } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import styled, {
 	createGlobalStyle,
@@ -10,16 +10,11 @@ import { Game } from './components/Game/Game';
 import { MultiplayerGame } from './components/MultiplayerGame';
 import { Navigation } from './components/Navigation';
 import { Rules } from './components/Rules';
-import { initConnection } from './connection';
-import {
-	SetConnectionAction,
-	SetSessionAction,
-	UpdatePlayerStateAction,
-} from './state/AppActions';
+import { StartMultiplayerModal } from './components/StartMultiplayerModal';
 import { initial, reducer } from './state/AppState';
 import { darkColors } from './styles/colors';
 
-const url = 'https://localhost:5001/play';
+export const url = 'https://localhost:5001/play';
 
 function App() {
 	const [theme, setCurrentTheme] = useState<string>(
@@ -32,23 +27,8 @@ function App() {
 		},
 		[setCurrentTheme],
 	);
-
+	const [showMPModal, setShowMPModal] = useState(false);
 	const [state, dispatch] = useReducer(reducer, initial);
-
-	// TODO: This should be callable by the user
-	useEffect(() => {
-		initConnection(url).then((connection) => {
-			dispatch(new SetConnectionAction(connection));
-			connection.on('createdSession', (session) => {
-				dispatch(new SetSessionAction(session));
-			});
-			connection.invoke('createGame');
-
-			connection.on('newState', (name, values) => {
-				dispatch(new UpdatePlayerStateAction(name, values));
-			});
-		});
-	}, []);
 
 	return (
 		<ThemeProvider theme={{ mode: theme }}>
@@ -57,7 +37,7 @@ function App() {
 				<Main>
 					<Header>
 						<H1>Balut</H1>
-						<Navigation />
+						<Navigation showMultiplayer={() => setShowMPModal((x) => !x)} />
 					</Header>
 
 					<section>
@@ -75,6 +55,7 @@ function App() {
 										players={state.players}
 										connection={state.connection}
 										session={state.session}
+										dispatch={dispatch}
 									/>
 								) : (
 									<Game />
@@ -82,7 +63,13 @@ function App() {
 							</Route>
 						</Switch>
 					</section>
-					{/* <Chat username={'Oliver'} /> */}
+					<StartMultiplayerModal
+						name={state.name}
+						visible={showMPModal}
+						dismiss={() => setShowMPModal(false)}
+						dispatch={dispatch}
+						connection={state.connection}
+					/>
 				</Main>
 			</Router>
 		</ThemeProvider>

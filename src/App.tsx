@@ -37,9 +37,9 @@ function App() {
 
 					<section>
 						<Switch>
-							<Route path="/chat">
+							{/* <Route path="/chat">
 								<Chat />
-							</Route>
+							</Route> */}
 							<Route path="/rules">
 								<Rules />
 							</Route>
@@ -48,6 +48,7 @@ function App() {
 							</Route>
 						</Switch>
 					</section>
+					<Chat username={'Oliver'} />
 				</Main>
 			</Router>
 		</ThemeProvider>

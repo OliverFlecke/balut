@@ -1,16 +1,22 @@
 import * as signalR from '@microsoft/signalr';
 
-export function initConnection() {
-	const connection = new signalR.HubConnectionBuilder()
-		.withUrl('https://localhost:5001/play')
-		.build();
+export function initConnection(url: string): Promise<signalR.HubConnection> {
+	const connection = new signalR.HubConnectionBuilder().withUrl(url).build();
 
-	try {
-		connection.start();
-	} catch (error) {
-		console.error('Unable to connect to server');
-		console.error(error);
-	}
+	connection.on('connected', () => {
+		console.log('connected');
+	});
 
-	return connection;
+	return new Promise((resolve, reject) => {
+		connection
+			.start()
+			.then(() => {
+				console.log('Connection started');
+				resolve(connection);
+			})
+			.catch((err) => {
+				console.error('Unable to connect to server');
+				reject(err);
+			});
+	});
 }

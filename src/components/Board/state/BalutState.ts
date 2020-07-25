@@ -64,7 +64,7 @@ function initState(): BalutState {
 	};
 }
 
-export function initValues() {
+export function initValues(): BalutValues {
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	return enumStrings(Category).reduce((acc: any, key) => {
 		acc[key] = [null, null, null, null];

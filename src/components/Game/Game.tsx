@@ -4,7 +4,12 @@ import { Category } from '../../Category';
 import { Button } from '../../styles/elements';
 import { Board } from '../Board/Board';
 import { StoreValue } from '../Board/state/actions/StoreValue';
-import { balutInitial, balutReducer, Value } from '../Board/state/BalutState';
+import {
+	balutInitial,
+	balutReducer,
+	Value,
+	BalutValues,
+} from '../Board/state/BalutState';
 import { Dice } from './Dice';
 import { ResetRollAction } from './state/actions/ResetRollAction';
 import { RollAction } from './state/actions/RollAction';
@@ -14,7 +19,11 @@ import { doRoll } from './state/gameUtils';
 import { BoardControls } from '../Board/BoardControls';
 import { ClearBoard } from '../Board/state/actions/ClearBoard';
 
-export const Game = () => {
+interface GameProps {
+	onTurnFinished?: (values: BalutValues) => void;
+}
+
+export const Game = ({ onTurnFinished }: GameProps) => {
 	const [state, dispatch] = useReducer(gameReducer, initialGameState);
 	const [balutState, balutDispatch] = useReducer(
 		balutReducer({}),
@@ -44,8 +53,11 @@ export const Game = () => {
 		(category: Category, index: number, value: Value) => {
 			balutDispatch(new StoreValue(category, index, value));
 			newRoll();
+			if (onTurnFinished) {
+				onTurnFinished(balutState.values);
+			}
 		},
-		[balutDispatch, newRoll],
+		[balutDispatch, newRoll, balutState, onTurnFinished],
 	);
 	const clearBoard = useCallback(() => {
 		balutDispatch(new ClearBoard());

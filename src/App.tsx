@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useReducer, useState } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import styled, {
 	createGlobalStyle,
@@ -6,17 +6,25 @@ import styled, {
 	ThemeProvider,
 } from 'styled-components';
 import theme from 'styled-theming';
-import { Chat } from './components/Chat/Chat';
 import { Game } from './components/Game/Game';
+import { MultiplayerGame } from './components/MultiplayerGame';
 import { Navigation } from './components/Navigation';
 import { Rules } from './components/Rules';
+import { initConnection } from './connection';
+import {
+	SetConnectionAction,
+	SetSessionAction,
+	UpdatePlayerStateAction,
+} from './state/AppActions';
+import { initial, reducer } from './state/AppState';
 import { darkColors } from './styles/colors';
+
+const url = 'https://localhost:5001/play';
 
 function App() {
 	const [theme, setCurrentTheme] = useState<string>(
 		localStorage.getItem('theme') ?? 'dark',
 	);
-
 	const setTheme = useCallback(
 		(theme: string) => {
 			localStorage.setItem('theme', theme);
@@ -24,6 +32,23 @@ function App() {
 		},
 		[setCurrentTheme],
 	);
+
+	const [state, dispatch] = useReducer(reducer, initial);
+
+	// TODO: This should be callable by the user
+	useEffect(() => {
+		initConnection(url).then((connection) => {
+			dispatch(new SetConnectionAction(connection));
+			connection.on('createdSession', (session) => {
+				dispatch(new SetSessionAction(session));
+			});
+			connection.invoke('createGame');
+
+			connection.on('newState', (name, values) => {
+				dispatch(new UpdatePlayerStateAction(name, values));
+			});
+		});
+	}, []);
 
 	return (
 		<ThemeProvider theme={{ mode: theme }}>
@@ -44,11 +69,20 @@ function App() {
 								<Rules />
 							</Route>
 							<Route path="/">
-								<Game />
+								{state.session && state.connection && state.name ? (
+									<MultiplayerGame
+										name={state.name}
+										players={state.players}
+										connection={state.connection}
+										session={state.session}
+									/>
+								) : (
+									<Game />
+								)}
 							</Route>
 						</Switch>
 					</section>
-					<Chat username={'Oliver'} />
+					{/* <Chat username={'Oliver'} /> */}
 				</Main>
 			</Router>
 		</ThemeProvider>

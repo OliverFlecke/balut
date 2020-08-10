@@ -5,10 +5,14 @@ import { Li, Ul } from '../styles/elements';
 import { navColor } from '../styles/colors';
 
 interface NavigationProps {
+	shouldShowMultiplayer: boolean;
 	showMultiplayer: () => void;
 }
 
-export const Navigation = ({ showMultiplayer }: NavigationProps) => (
+export const Navigation = ({
+	shouldShowMultiplayer,
+	showMultiplayer,
+}: NavigationProps) => (
 	<Nav>
 		<NavUl>
 			<NavLi>
@@ -17,9 +21,11 @@ export const Navigation = ({ showMultiplayer }: NavigationProps) => (
 			<NavLi>
 				<Link to="/rules">Rules</Link>
 			</NavLi>
-			<NavLi>
-				<a onClick={showMultiplayer}>Multiplayer</a>
-			</NavLi>
+			{shouldShowMultiplayer && (
+				<NavLi>
+					<a onClick={showMultiplayer}>Multiplayer</a>
+				</NavLi>
+			)}
 		</NavUl>
 	</Nav>
 );

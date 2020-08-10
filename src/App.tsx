@@ -37,14 +37,14 @@ function App() {
 				<Main>
 					<Header>
 						<H1>Balut</H1>
-						<Navigation showMultiplayer={() => setShowMPModal((x) => !x)} />
+						<Navigation
+							shouldShowMultiplayer={!!state.connection}
+							showMultiplayer={() => setShowMPModal((x) => !x)}
+						/>
 					</Header>
 
 					<section>
 						<Switch>
-							{/* <Route path="/chat">
-								<Chat />
-							</Route> */}
 							<Route path="/rules">
 								<Rules />
 							</Route>

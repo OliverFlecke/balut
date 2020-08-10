@@ -1,7 +1,12 @@
-import { BalutAction, BalutState, Value, BalutValues } from '../BalutState';
 import { Category } from '../../../../Category';
+import {
+	Value,
+	GameState,
+	BalutValues,
+	GameAction,
+} from '../GameState';
 
-export class StoreValue implements BalutAction {
+export class StoreValue implements GameAction {
 	public category: Category;
 	public index: number;
 	public value: Value;
@@ -12,7 +17,7 @@ export class StoreValue implements BalutAction {
 		this.value = value;
 	}
 
-	reduce(state: BalutState): BalutState {
+	reduce(state: GameState): GameState {
 		const values: BalutValues = {};
 		Object.assign(values, state.values);
 		values[Category[this.category]][this.index] = this.value;

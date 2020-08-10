@@ -2,14 +2,13 @@ import React from 'react';
 import { Category } from '../../Category';
 import { Table } from '../../styles/table';
 import { enumValues } from '../../utils/enums';
-import { Roll, WriteValue } from '../Game/state/GameState';
+import { BalutValues, Roll, WriteValue } from '../Game/state/GameState';
 import { sumNumbers } from '../Game/state/gameUtils';
 import { FinalScore } from './FinalScore';
 import { FooterRow } from './FooterRow';
 import { HeaderRow } from './HeaderRow';
 import { Row } from './Row';
 import { categoryPoints, extraPointScore, sumValues } from './rules';
-import { BalutValues } from './state/BalutState';
 
 const categories = enumValues(Category);
 

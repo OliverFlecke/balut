@@ -3,32 +3,27 @@ import styled from 'styled-components';
 import { Category } from '../../Category';
 import { Button } from '../../styles/elements';
 import { Board } from '../Board/Board';
-import { StoreValue } from '../Board/state/actions/StoreValue';
-import {
-	balutInitial,
-	balutReducer,
-	Value,
-	BalutValues,
-} from '../Board/state/BalutState';
+import { BoardControls } from '../Board/BoardControls';
 import { Dice } from './Dice';
+import { ClearBoard } from './state/actions/ClearBoard';
 import { ResetRollAction } from './state/actions/ResetRollAction';
 import { RollAction } from './state/actions/RollAction';
+import { StoreValue } from './state/actions/StoreValue';
 import { ToggleDiceAction } from './state/actions/ToggleDiceAction';
-import { gameReducer, initialGameState } from './state/GameState';
+import {
+	gameReducer,
+	initialGameState,
+	Value,
+	BalutValues,
+} from './state/GameState';
 import { doRoll } from './state/gameUtils';
-import { BoardControls } from '../Board/BoardControls';
-import { ClearBoard } from '../Board/state/actions/ClearBoard';
 
 interface GameProps {
 	onTurnFinished?: (values: BalutValues) => void;
 }
 
 export const Game = ({ onTurnFinished }: GameProps) => {
-	const [state, dispatch] = useReducer(gameReducer, initialGameState);
-	const [balutState, balutDispatch] = useReducer(
-		balutReducer({}),
-		balutInitial,
-	);
+	const [state, dispatch] = useReducer(gameReducer, initialGameState());
 	const [roll, setRoll] = useState(state.roll);
 	useEffect(() => setRoll(state.roll), [state.roll]);
 
@@ -51,26 +46,22 @@ export const Game = ({ onTurnFinished }: GameProps) => {
 	}, [dispatch]);
 	const writeValue = useCallback(
 		(category: Category, index: number, value: Value) => {
-			balutDispatch(new StoreValue(category, index, value));
+			dispatch(new StoreValue(category, index, value));
 			newRoll();
 			if (onTurnFinished) {
-				onTurnFinished(balutState.values);
+				onTurnFinished(state.values);
 			}
 		},
-		[balutDispatch, newRoll, balutState, onTurnFinished],
+		[dispatch, newRoll, state, onTurnFinished],
 	);
 	const clearBoard = useCallback(() => {
-		balutDispatch(new ClearBoard());
+		dispatch(new ClearBoard());
 		dispatch(new ResetRollAction());
-	}, [balutDispatch, dispatch]);
+	}, [dispatch]);
 
 	return (
 		<Container>
-			<Board
-				roll={state.roll}
-				values={balutState.values}
-				writeValue={writeValue}
-			/>
+			<Board roll={state.roll} values={state.values} writeValue={writeValue} />
 			<h3>
 				{state.rollNumber === 0
 					? 'Roll your dice!'

@@ -1,7 +1,6 @@
 import { Category } from '../../Category';
-import { Roll } from '../Game/state/GameState';
+import { Roll, RowState, Value } from '../Game/state/GameState';
 import { sumNumbers } from '../Game/state/gameUtils';
-import { RowState, Value } from './state/BalutState';
 
 export function categoryPoints(category: Category, values: RowState): number {
 	switch (category) {

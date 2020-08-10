@@ -1,10 +1,9 @@
 import React, { useMemo } from 'react';
 import { Category, categoryToString } from '../../Category';
 import { Td, Th, Tr } from '../../styles/table';
-import { Roll, WriteValue } from '../Game/state/GameState';
+import { Roll, RowState, WriteValue } from '../Game/state/GameState';
 import { Cell } from './Cell';
 import { calculateSuggestion, categoryPoints, sumValues } from './rules';
-import { RowState } from './state/BalutState';
 
 interface RowProps {
 	category: Category;

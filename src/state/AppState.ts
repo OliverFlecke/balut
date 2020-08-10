@@ -1,5 +1,5 @@
 import { HubConnection } from '@microsoft/signalr';
-import { BalutValues, initValues } from '../components/Board/state/BalutState';
+import { BalutValues } from '../components/Game/state/GameState';
 
 export interface AppState {
 	name?: string;

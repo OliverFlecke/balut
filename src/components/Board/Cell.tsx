@@ -4,8 +4,7 @@ import theme from 'styled-theming';
 import { Category } from '../../Category';
 import { darkColors } from '../../styles/colors';
 import { Td } from '../../styles/table';
-import { WriteValue } from '../Game/state/GameState';
-import { Value } from './state/BalutState';
+import { WriteValue, Value } from '../Game/state/GameState';
 
 interface CellProps {
 	category: Category;

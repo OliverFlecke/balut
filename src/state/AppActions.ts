@@ -1,6 +1,9 @@
-import { Action, AppState } from './AppState';
 import { HubConnection } from '@microsoft/signalr';
-import { BalutValues, initValues } from '../components/Board/state/BalutState';
+import {
+	BalutValues,
+	initBalutValues,
+} from '../components/Game/state/GameState';
+import { Action, AppState } from './AppState';
 
 export class SetConnectionAction implements Action {
 	connection: HubConnection;
@@ -80,7 +83,7 @@ export class AddPlayerAction implements Action {
 			...state,
 			players: state.players
 				.filter((p) => p.name !== this.name)
-				.concat({ name: this.name, values: initValues() }),
+				.concat({ name: this.name, values: initBalutValues() }),
 		};
 	}
 }

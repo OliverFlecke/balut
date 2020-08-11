@@ -13,6 +13,7 @@ import { Rules } from './components/Rules';
 import { StartMultiplayerModal } from './components/StartMultiplayerModal';
 import { initial, reducer } from './state/AppState';
 import { darkColors } from './styles/colors';
+import { RTC } from './components/RTC/RTC';
 
 export const url = 'https://localhost:5001/play';
 
@@ -58,7 +59,8 @@ function App() {
 										dispatch={dispatch}
 									/>
 								) : (
-									<Game />
+									// <Game />
+									<RTC />
 								)}
 							</Route>
 						</Switch>

@@ -13,6 +13,7 @@ import { Rules } from './components/Rules';
 import { StartMultiplayerModal } from './components/StartMultiplayerModal';
 import { initial, reducer } from './state/AppState';
 import { darkColors } from './styles/colors';
+import './index.css';
 
 export const url = 'https://localhost:5001/play';
 

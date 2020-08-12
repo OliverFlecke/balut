@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import theme from 'styled-theming';
 import { darkColors } from './colors';
+import tw from 'tailwind.macro';
 
 const backgroundColor = theme.variants('mode', 'variant', {
 	disabled: { dark: 'darkgray' },
@@ -12,13 +13,10 @@ const color = theme.variants('mode', 'variant', {
 });
 
 export const Button = styled.button`
-	background-color: ${backgroundColor};
+	/* background-color: ${backgroundColor}; */
 	color: ${color};
-	padding: 10px;
-	margin: 6px;
-	border: none;
-	border-radius: 6px;
-	font-size: 1.2em;
+
+	${tw`bg-blue-500 rounded p-2 pr-3 pl-3 m-1 text-xl`}
 `;
 
 export const Ul = styled.ul`

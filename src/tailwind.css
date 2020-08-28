@@ -1,0 +1,15 @@
+@tailwind base;
+
+@tailwind components;
+
+html {
+	box-sizing: border-box;
+}
+
+*,
+*:before,
+*:after {
+	box-sizing: inherit;
+}
+
+@tailwind utilities;

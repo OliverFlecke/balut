@@ -32,6 +32,7 @@ export const MultiplayerGame = ({
 
 	const onTurnFinished = useCallback(
 		(values) => {
+			console.log('Sending state');
 			connection.invoke('sendState', session, name, values);
 		},
 		[connection, session, name],

@@ -14,6 +14,7 @@ import { StartMultiplayerModal } from './components/StartMultiplayerModal';
 import { initial, reducer } from './state/AppState';
 import { darkColors } from './styles/colors';
 import { RTC } from './components/RTC/RTC';
+import './index.css';
 
 export const url = 'https://localhost:5001/play';
 
@@ -29,7 +30,7 @@ function App() {
 		[setCurrentTheme],
 	);
 	const [showMPModal, setShowMPModal] = useState(false);
-	const [state, dispatch] = useReducer(reducer, initial);
+	const [state, dispatch] = useReducer(reducer, initial());
 
 	return (
 		<ThemeProvider theme={{ mode: theme }}>
@@ -66,10 +67,10 @@ function App() {
 						</Switch>
 					</section>
 					<StartMultiplayerModal
-						name={state.name}
+						state={state}
+						dispatch={dispatch}
 						visible={showMPModal}
 						dismiss={() => setShowMPModal(false)}
-						dispatch={dispatch}
 						connection={state.connection}
 					/>
 				</Main>

@@ -46,10 +46,11 @@ export const Game = ({ onTurnFinished }: GameProps) => {
 	}, [dispatch]);
 	const writeValue = useCallback(
 		(category: Category, index: number, value: Value) => {
-			dispatch(new StoreValue(category, index, value));
+			const action = new StoreValue(category, index, value);
+			dispatch(action);
 			newRoll();
 			if (onTurnFinished) {
-				onTurnFinished(state.values);
+				onTurnFinished(action.reduce(state).values);
 			}
 		},
 		[dispatch, newRoll, state, onTurnFinished],

@@ -57,7 +57,7 @@ export class UpdatePlayerStateAction implements Action {
 	}
 
 	reduce(state: AppState): AppState {
-		console.log(`Updating player state for {this.name}`);
+		console.log(`Updating player state for ${this.name}`);
 		return {
 			...state,
 			players: state.players.map((player) => {
@@ -79,6 +79,7 @@ export class AddPlayerAction implements Action {
 	}
 
 	reduce(state: AppState): AppState {
+		console.debug(`Adding player ${this.name} to game`);
 		return {
 			...state,
 			players: state.players

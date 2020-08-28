@@ -17,7 +17,7 @@ export interface GameAction {
 
 export function gameReducer(state: GameState, action: GameAction): GameState {
 	const newState = action.reduce(state);
-	localStorage.setItem('state', JSON.stringify(newState));
+	localStorage.setItem('gameState', JSON.stringify(newState));
 
 	return newState;
 }
@@ -29,7 +29,7 @@ export const GameContext = React.createContext<{
 }>({} as any);
 
 export function initialGameState(): GameState {
-	const stored = localStorage.getItem('state');
+	const stored = localStorage.getItem('gameState');
 
 	if (stored !== null) {
 		try {

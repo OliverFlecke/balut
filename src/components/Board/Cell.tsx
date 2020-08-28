@@ -28,7 +28,11 @@ export const Cell = ({
 	}, [writeValue, index, suggestion, category]);
 
 	return (
-		<TdCell onClick={onClick} variant={suggestion ? 'suggestion' : 'default'}>
+		<TdCell
+			onClick={onClick}
+			variant={suggestion ? 'suggestion' : 'default'}
+			className={'bg-blue-400'}
+		>
 			{valueToString(value !== null ? value : suggestion)}
 		</TdCell>
 	);

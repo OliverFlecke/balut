@@ -6,7 +6,7 @@ import {
 
 export class ClearBoard implements GameAction {
 	reduce(state: GameState): GameState {
-		localStorage.removeItem('state');
+		localStorage.removeItem('gameState');
 
 		return {
 			...state,

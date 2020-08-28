@@ -72,8 +72,8 @@ export const StartMultiplayerModal = ({
 
 	// Join game
 	const joinGame = useCallback(
-		(session?: string, name?: string) => {
-			console.log('Joining game');
+		(connection?: HubConnection, session?: string, name?: string) => {
+			console.log(`${name} is joining ${session}`);
 
 			if (connection && session && name) {
 				connection.invoke('join', session, name);
@@ -82,14 +82,14 @@ export const StartMultiplayerModal = ({
 				dismiss();
 			}
 		},
-		[connection, sessionRef, nameRef, dismiss, dispatch],
+		[sessionRef, nameRef, dismiss, dispatch],
 	);
 	const joinGameSubmit = useCallback(
 		(e: React.FormEvent<HTMLFormElement>) => {
 			e.preventDefault();
-			joinGame(sessionRef.current?.value, nameRef.current?.value);
+			joinGame(connection, sessionRef.current?.value, nameRef.current?.value);
 		},
-		[joinGame],
+		[connection, joinGame],
 	);
 
 	useEffect(() => {
@@ -98,7 +98,7 @@ export const StartMultiplayerModal = ({
 				dispatch(new SetConnectionAction(connection));
 
 				if (state.session && state.name) {
-					joinGame(state.session, state.name);
+					joinGame(connection, state.session, state.name);
 				}
 			})
 			.catch(() => setFailed(true));

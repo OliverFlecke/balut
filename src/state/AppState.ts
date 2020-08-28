@@ -19,10 +19,10 @@ export interface Action {
 
 export function reducer(state: AppState, action: Action): AppState {
 	const newState = action.reduce(state);
-	localStorage.setItem(
-		'appState',
-		JSON.stringify(newState, ['name', 'session', 'players']),
-	);
+
+	const toSave = JSON.parse(JSON.stringify(newState));
+	toSave.connection = undefined;
+	localStorage.setItem('appState', JSON.stringify(toSave));
 
 	return newState;
 }

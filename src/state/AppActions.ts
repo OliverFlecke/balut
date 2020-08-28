@@ -79,6 +79,7 @@ export class AddPlayerAction implements Action {
 	}
 
 	reduce(state: AppState): AppState {
+		console.debug(`Adding player ${this.name} to game`);
 		return {
 			...state,
 			players: state.players

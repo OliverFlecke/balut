@@ -29,7 +29,7 @@ export const GameContext = React.createContext<{
 }>({} as any);
 
 export function initialGameState(): GameState {
-	const stored = localStorage.getItem('state');
+	const stored = localStorage.getItem('gameState');
 
 	if (stored !== null) {
 		try {

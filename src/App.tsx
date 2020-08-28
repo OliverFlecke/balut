@@ -29,7 +29,7 @@ function App() {
 		[setCurrentTheme],
 	);
 	const [showMPModal, setShowMPModal] = useState(false);
-	const [state, dispatch] = useReducer(reducer, initial);
+	const [state, dispatch] = useReducer(reducer, initial());
 
 	return (
 		<ThemeProvider theme={{ mode: theme }}>
@@ -65,10 +65,10 @@ function App() {
 						</Switch>
 					</section>
 					<StartMultiplayerModal
-						name={state.name}
+						state={state}
+						dispatch={dispatch}
 						visible={showMPModal}
 						dismiss={() => setShowMPModal(false)}
-						dispatch={dispatch}
 						connection={state.connection}
 					/>
 				</Main>

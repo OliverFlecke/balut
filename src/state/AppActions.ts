@@ -57,7 +57,7 @@ export class UpdatePlayerStateAction implements Action {
 	}
 
 	reduce(state: AppState): AppState {
-		console.log(`Updating player state for {this.name}`);
+		console.log(`Updating player state for ${this.name}`);
 		return {
 			...state,
 			players: state.players.map((player) => {

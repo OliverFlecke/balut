@@ -17,7 +17,7 @@ export interface GameAction {
 
 export function gameReducer(state: GameState, action: GameAction): GameState {
 	const newState = action.reduce(state);
-	localStorage.setItem('state', JSON.stringify(newState));
+	localStorage.setItem('gameState', JSON.stringify(newState));
 
 	return newState;
 }

@@ -9,22 +9,22 @@ import {
 	SetSessionAction,
 	SetNameAction,
 } from '../state/AppActions';
-import { Action } from '../state/AppState';
+import { Action, AppState } from '../state/AppState';
 import { Button } from '../styles/elements';
 import { Modal } from './Modal';
 
 interface StartMultiplayerModalProps {
 	visible: boolean;
-	name?: string;
 	dismiss: () => void;
+	state: AppState;
 	dispatch: React.Dispatch<Action>;
 	connection?: HubConnection;
 }
 
 export const StartMultiplayerModal = ({
-	name,
 	visible,
 	dismiss,
+	state,
 	dispatch,
 	connection,
 }: StartMultiplayerModalProps) => {
@@ -33,20 +33,12 @@ export const StartMultiplayerModal = ({
 	const sessionRef = useRef<HTMLInputElement>(null);
 
 	useEffect(() => {
-		initConnection(url)
-			.then((connection) => {
-				dispatch(new SetConnectionAction(connection));
-			})
-			.catch(() => setFailed(true));
-	}, [dispatch, setFailed]);
-
-	useEffect(() => {
 		if (connection) {
 			connection.on('joinedSession', (session, newPlayer) => {
 				console.log(`${newPlayer} joined ${session}`);
 				dispatch(new AddPlayerAction(newPlayer));
 
-				connection.invoke('sendWelcome', session, name);
+				connection.invoke('sendWelcome', session, state.name);
 			});
 			connection.on('welcomeFrom', (otherPlayer) => {
 				console.log(`${otherPlayer} says welcome`);
@@ -57,7 +49,7 @@ export const StartMultiplayerModal = ({
 			connection?.off('joinedSession');
 			connection?.off('welcomeFrom');
 		};
-	}, [connection, name, dispatch]);
+	}, [connection, state.name, dispatch]);
 
 	// Start game
 	const startGame = useCallback(() => {
@@ -79,22 +71,38 @@ export const StartMultiplayerModal = ({
 	);
 
 	// Join game
-	const joinGame = useCallback(() => {
-		if (connection) {
-			const session = sessionRef.current?.value;
-			const name = nameRef.current?.value ?? '';
-			connection.invoke('join', session, name);
-			dispatch(new SetNameAction(name));
-			dismiss();
-		}
-	}, [connection, sessionRef, nameRef, dismiss, dispatch]);
+	const joinGame = useCallback(
+		(session?: string, name?: string) => {
+			console.log('Joining game');
+
+			if (connection && session && name) {
+				connection.invoke('join', session, name);
+				dispatch(new SetSessionAction(session));
+				dispatch(new SetNameAction(name));
+				dismiss();
+			}
+		},
+		[connection, sessionRef, nameRef, dismiss, dispatch],
+	);
 	const joinGameSubmit = useCallback(
 		(e: React.FormEvent<HTMLFormElement>) => {
 			e.preventDefault();
-			joinGame();
+			joinGame(sessionRef.current?.value, nameRef.current?.value);
 		},
 		[joinGame],
 	);
+
+	useEffect(() => {
+		initConnection(url)
+			.then((connection) => {
+				dispatch(new SetConnectionAction(connection));
+
+				if (state.session && state.name) {
+					joinGame(state.session, state.name);
+				}
+			})
+			.catch(() => setFailed(true));
+	}, [dispatch, setFailed]);
 
 	if (failed) {
 		return (

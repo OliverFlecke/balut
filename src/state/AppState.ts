@@ -18,9 +18,24 @@ export interface Action {
 }
 
 export function reducer(state: AppState, action: Action): AppState {
-	return action.reduce(state);
+	const newState = action.reduce(state);
+	localStorage.setItem(
+		'appState',
+		JSON.stringify(newState, ['name', 'session', 'players']),
+	);
+
+	return newState;
 }
 
-export const initial: AppState = {
-	players: [],
-};
+export function initial(): AppState {
+	const stored = localStorage.getItem('appState');
+	if (stored) {
+		try {
+			return JSON.parse(stored);
+		} catch {}
+	}
+
+	return {
+		players: [],
+	};
+}

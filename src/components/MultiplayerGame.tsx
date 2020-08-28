@@ -6,6 +6,7 @@ import { PlayerState, Action } from '../state/AppState';
 import { Board } from './Board/Board';
 import { Game } from './Game/Game';
 import { UpdatePlayerStateAction } from '../state/AppActions';
+import { RTC } from './RTC/RTC';
 
 interface MultiplayerGameProps {
 	name: string;
@@ -45,7 +46,7 @@ export const MultiplayerGame = ({
 
 	return (
 		<div>
-			<Tabs selectedIndex={index} onSelect={onSelect}>
+			{/* <Tabs selectedIndex={index} onSelect={onSelect}>
 				<TabList>
 					<Tab>Me</Tab>
 					{players.map((player) => (
@@ -61,7 +62,8 @@ export const MultiplayerGame = ({
 						<Board values={player.values} />
 					</TabPanel>
 				))}
-			</Tabs>
+			</Tabs> */}
+			<RTC hubConnection={connection} name={name} session={session} />
 		</div>
 	);
 };

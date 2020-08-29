@@ -1,30 +1,36 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { HubConnection } from '@microsoft/signalr';
-import { answerCall, createPeerConnection } from './connectionHandler';
+import {
+	answerCall,
+	createPeerConnection,
+	setupOnNegotiationNeeded,
+} from './connectionHandler';
+import { RemoteVideo } from './RemoteVideo';
+import { Button } from '../../styles/elements';
 
 const mediaConstraints = { video: true };
 
 interface RTCProps {
-	name: string;
+	username: string;
 	session: string;
 	hubConnection: HubConnection;
+	players: string[];
 }
 
-export const RTC = ({ name, session, hubConnection }: RTCProps) => {
+export const RTC = ({
+	username,
+	session,
+	hubConnection,
+	players,
+}: RTCProps) => {
 	const videoRef = useRef<HTMLVideoElement>(null);
-	const remoteVideoRef = useRef<HTMLVideoElement>(null);
 	const [connections, setConnections] = useState<Connection[]>([]);
 
-	const setRemoteStream = (stream: MediaStream) => {
-		console.debug(`Setting stream ${remoteVideoRef.current}`);
-		console.debug(stream);
-		if (remoteVideoRef.current !== null) {
-			remoteVideoRef.current.srcObject = stream;
-		}
-
+	const setRemoteStream = (username: string, stream: MediaStream) => {
+		console.debug(`Setting stream for ${username}`);
 		setConnections((cs) =>
 			cs.map((connection) =>
-				true
+				connection.username === username
 					? {
 							...connection,
 							stream,
@@ -55,7 +61,7 @@ export const RTC = ({ name, session, hubConnection }: RTCProps) => {
 				case 'video-offer':
 					const peerConnection = answerCall(
 						hubConnection,
-						name,
+						username,
 						otherUser,
 						session,
 						obj,
@@ -63,12 +69,14 @@ export const RTC = ({ name, session, hubConnection }: RTCProps) => {
 						setRemoteStream,
 					);
 					setConnections((x) =>
-						x.concat([
-							{
-								username: otherUser,
-								peerConnection: peerConnection,
-							},
-						]),
+						x
+							.filter((x) => x.username !== otherUser)
+							.concat([
+								{
+									username: otherUser,
+									peerConnection: peerConnection,
+								},
+							]),
 					);
 					break;
 				case 'video-answer':
@@ -78,7 +86,10 @@ export const RTC = ({ name, session, hubConnection }: RTCProps) => {
 
 						setConnections((cs) =>
 							cs.map((connection) => {
-								if (connection.username === otherUser) {
+								if (
+									connection.username === otherUser &&
+									!connection.peerConnection.remoteDescription
+								) {
 									connection.peerConnection
 										.setRemoteDescription(description)
 										.catch((err) => console.error(err));
@@ -90,7 +101,7 @@ export const RTC = ({ name, session, hubConnection }: RTCProps) => {
 					break;
 				case 'new-ice-candidate':
 					{
-						console.debug('Handling ice candidate');
+						// console.debug('Handling ice candidate');
 						const candidate = new RTCIceCandidate(obj);
 						setConnections((cs) =>
 							cs.map((connection) => {
@@ -115,36 +126,67 @@ export const RTC = ({ name, session, hubConnection }: RTCProps) => {
 		};
 	}, []);
 
-	const call = () => {
-		const peerConnection = createPeerConnection(
-			hubConnection,
-			name,
-			session,
-			setRemoteStream,
-		);
-		setConnections((x) =>
-			x.concat([
-				{
-					username: 'Bob',
-					peerConnection,
-				},
-			]),
-		);
-
+	// This will call all other known players in the session
+	const call = useCallback(() => {
 		const stream = videoRef.current?.srcObject as MediaStream;
-		stream
-			.getTracks()
-			.forEach((track) => peerConnection.addTrack(track, stream));
-	};
+		players.forEach((player) => {
+			if (connections.some((x) => x.username === player)) {
+				return;
+			}
+			const peerConnection = createPeerConnection(
+				hubConnection,
+				username,
+				player,
+				session,
+				setRemoteStream,
+			);
+			setupOnNegotiationNeeded(
+				peerConnection,
+				hubConnection,
+				session,
+				username,
+			);
+			setConnections((c) =>
+				c
+					.filter((x) => x.username !== player)
+					.concat([
+						{
+							username: player,
+							peerConnection,
+						},
+					]),
+			);
 
-	// console.log(connections);
+			stream
+				.getTracks()
+				.forEach((track) => peerConnection.addTrack(track, stream));
+		});
+	}, [players]);
 
 	return (
 		<div className="flex flex-col justify-center items-center">
-			<button onClick={call}>Call</button>
-			<video ref={videoRef} autoPlay={true} muted={true} />
-			<hr />
-			<video ref={remoteVideoRef} autoPlay={true} muted={true} />
+			<Button onClick={call}>Call</Button>
+			<div className="flex flex-row">
+				<div>
+					<h2>{username}</h2>
+					<video
+						ref={videoRef}
+						autoPlay={true}
+						muted={true}
+						height={'200'}
+						width={'200'}
+					/>
+				</div>
+				{connections
+					.filter((x) => x.stream !== undefined)
+					.map((x) => (
+						<RemoteVideo
+							key={x.username}
+							username={x.username}
+							stream={x.stream!}
+						/>
+					))}
+			</div>
 		</div>
 	);
 };

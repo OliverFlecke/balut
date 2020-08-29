@@ -63,7 +63,12 @@ export const MultiplayerGame = ({
 					</TabPanel>
 				))}
 			</Tabs> */}
-			<RTC hubConnection={connection} name={name} session={session} />
+			<RTC
+				hubConnection={connection}
+				username={name}
+				session={session}
+				players={players.map((p) => p.name)}
+			/>
 		</div>
 	);
 };

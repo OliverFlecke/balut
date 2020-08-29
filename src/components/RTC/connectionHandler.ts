@@ -1,5 +1,7 @@
 import { HubConnection } from '@microsoft/signalr';
 
+type SetStreamFunc = (username: string, stream: MediaStream) => void;
+
 export function answerCall(
 	hubConnection: HubConnection,
 	username: string,
@@ -7,13 +9,14 @@ export function answerCall(
 	session: string,
 	description: any,
 	stream: MediaStream,
-	setRemoteStream: (stream: MediaStream) => void,
+	setRemoteStream: SetStreamFunc,
 ): RTCPeerConnection {
-	console.log(`Call from ${caller}`);
+	// console.log(`Call from ${caller}`);
 	const desc = new RTCSessionDescription(description);
 	const peerConnection = createPeerConnection(
 		hubConnection,
 		username,
+		caller,
 		session,
 		setRemoteStream,
 	);
@@ -41,8 +44,9 @@ export function answerCall(
 export function createPeerConnection(
 	hubConnection: HubConnection,
 	username: string,
+	target: string,
 	session: string,
-	setRemoteStream: (stream: MediaStream) => void,
+	setRemoteStream: SetStreamFunc,
 ): RTCPeerConnection {
 	const peerConnection = new RTCPeerConnection({
 		iceServers: [
@@ -52,10 +56,40 @@ export function createPeerConnection(
 		],
 	});
 
-	function handleNegotiationNeededEvent() {
-		if (username !== 'Alice') {
-			return;
+	function handleICECandidateEvent(event: RTCPeerConnectionIceEvent) {
+		// console.debug(`${username} handling ICE candidate`);
+		if (event.candidate) {
+			hubConnection.send(
+				'call',
+				session,
+				username,
+				'new-ice-candidate',
+				event.candidate,
+			);
 		}
+	}
+
+	function handleTrackEvent(event: RTCTrackEvent) {
+		const stream =
+			event.streams.length === 0
+				? new MediaStream([event.track])
+				: event.streams[0];
+		setRemoteStream(target, stream);
+	}
+
+	peerConnection.onicecandidate = handleICECandidateEvent;
+	peerConnection.ontrack = handleTrackEvent;
+
+	return peerConnection;
+}
+
+export function setupOnNegotiationNeeded(
+	peerConnection: RTCPeerConnection,
+	hubConnection: HubConnection,
+	session: string,
+	username: string,
+) {
+	function handleNegotiationNeededEvent() {
 		peerConnection
 			.createOffer()
 			.then((offer) => peerConnection.setLocalDescription(offer))
@@ -71,31 +105,5 @@ export function createPeerConnection(
 			.catch((err) => console.error(err));
 	}
 
-	function handleICECandidateEvent(event: RTCPeerConnectionIceEvent) {
-		console.debug(`${username} handling ICE candidate`);
-		if (event.candidate) {
-			hubConnection.send(
-				'call',
-				session,
-				username,
-				'new-ice-candidate',
-				event.candidate,
-			);
-		}
-	}
-
-	function handleTrackEvent(event: RTCTrackEvent) {
-		console.log(event);
-		const stream =
-			event.streams.length === 0
-				? new MediaStream([event.track])
-				: event.streams[0];
-		setRemoteStream(stream);
-	}
-
-	peerConnection.onicecandidate = handleICECandidateEvent;
-	peerConnection.ontrack = handleTrackEvent;
 	peerConnection.onnegotiationneeded = handleNegotiationNeededEvent;
-
-	return peerConnection;
 }

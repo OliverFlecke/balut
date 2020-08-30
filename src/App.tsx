@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import styled, {
 	createGlobalStyle,
 	css,
-	ThemeProvider,
+	ThemeProvider
 } from 'styled-components';
 import theme from 'styled-theming';
 import { Game } from './components/Game/Game';
@@ -11,11 +11,14 @@ import { MultiplayerGame } from './components/MultiplayerGame';
 import { Navigation } from './components/Navigation';
 import { Rules } from './components/Rules';
 import { StartMultiplayerModal } from './components/StartMultiplayerModal';
+import './index.css';
 import { initial, reducer } from './state/AppState';
 import { darkColors } from './styles/colors';
-import './index.css';
 
-export const url = 'https://localhost:5001/play';
+export const url =
+	process.env.NODE_ENV === 'development'
+		? 'https://localhost:5001/play'
+		: '/play';
 
 function App() {
 	const [theme, setCurrentTheme] = useState<string>(

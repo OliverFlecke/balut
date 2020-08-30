@@ -22,6 +22,7 @@ export function reducer(state: AppState, action: Action): AppState {
 
 	const toSave = JSON.parse(JSON.stringify(newState));
 	toSave.connection = undefined;
+	toSave.players = undefined;
 	localStorage.setItem('appState', JSON.stringify(toSave));
 
 	return newState;
@@ -31,7 +32,11 @@ export function initial(): AppState {
 	const stored = localStorage.getItem('appState');
 	if (stored) {
 		try {
-			return JSON.parse(stored);
+			const retrieved = JSON.parse(stored);
+			if (retrieved) {
+				retrieved.players = [];
+				return retrieved;
+			}
 		} catch {}
 	}
 

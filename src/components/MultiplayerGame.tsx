@@ -46,7 +46,7 @@ export const MultiplayerGame = ({
 
 	return (
 		<div>
-			{/* <Tabs selectedIndex={index} onSelect={onSelect}>
+			<Tabs selectedIndex={index} onSelect={onSelect}>
 				<TabList>
 					<Tab>Me</Tab>
 					{players.map((player) => (
@@ -62,7 +62,7 @@ export const MultiplayerGame = ({
 						<Board values={player.values} />
 					</TabPanel>
 				))}
-			</Tabs> */}
+			</Tabs>
 			<RTC
 				hubConnection={connection}
 				username={name}

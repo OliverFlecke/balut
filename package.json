@@ -9,7 +9,8 @@
 	"scripts": {
 		"build:css": "postcss src/tailwind.css -o src/index.css",
 		"start": "yarn run build:css & react-scripts start",
-		"build": "react-scripts build",
+		"build": "yarn run build:css && react-scripts build",
+		"release": "yarn build && node ./scripts/copy_to_backend.js",
 		"test": "react-scripts test",
 		"eject": "react-scripts eject",
 		"predeploy": "react-scripts build",
@@ -70,6 +71,8 @@
 		"eslint-plugin-react-hooks": "^4.1.0",
 		"eslint-plugin-standard": "^4.0.1",
 		"gh-pages": "^3.1.0",
-		"prettier": "^2.0.5"
+		"ncp": "^2.0.0",
+		"prettier": "^2.0.5",
+		"rimraf": "^3.0.2"
 	}
 }

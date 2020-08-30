@@ -2,6 +2,12 @@ import { HubConnection } from '@microsoft/signalr';
 
 type SetStreamFunc = (username: string, stream: MediaStream) => void;
 
+export interface Connection {
+	username: string;
+	peerConnection: RTCPeerConnection;
+	stream?: MediaStream;
+}
+
 export function answerCall(
 	hubConnection: HubConnection,
 	username: string,

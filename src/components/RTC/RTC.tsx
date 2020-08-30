@@ -1,14 +1,15 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { HubConnection } from '@microsoft/signalr';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { Button } from '../../styles/elements';
 import {
 	answerCall,
+	Connection,
 	createPeerConnection,
 	setupOnNegotiationNeeded,
 } from './connectionHandler';
-import { RemoteVideo } from './RemoteVideo';
-import { Button } from '../../styles/elements';
+import { RemoteVideos } from './RemoteVideo';
 
-const mediaConstraints = { video: true };
+export const mediaConstraints = { video: { facingMode: 'user' } };
 
 interface RTCProps {
 	username: string;
@@ -23,8 +24,10 @@ export const RTC = ({
 	hubConnection,
 	players,
 }: RTCProps) => {
+	const [localStream, setLocalStream] = useState<MediaStream | undefined>();
 	const videoRef = useRef<HTMLVideoElement>(null);
 	const [connections, setConnections] = useState<Connection[]>([]);
+	const showSelf = true;
 
 	const setRemoteStream = (username: string, stream: MediaStream) => {
 		console.debug(`Setting stream for ${username}`);
@@ -47,13 +50,15 @@ export const RTC = ({
 		}
 		navigator.mediaDevices
 			.getUserMedia(mediaConstraints)
-			.then((stream) => {
-				if (videoRef.current) {
-					videoRef.current.srcObject = stream;
-				}
-			})
+			.then(setLocalStream)
 			.catch((err) => console.error(err));
 	}, []);
+
+	useEffect(() => {
+		if (videoRef.current && localStream) {
+			videoRef.current.srcObject = localStream;
+		}
+	}, [localStream]);
 
 	useEffect(() => {
 		hubConnection.on('callFrom', (otherUser, target, type, obj) => {
@@ -69,7 +74,7 @@ export const RTC = ({
 						otherUser,
 						session,
 						obj,
-						videoRef.current?.srcObject as MediaStream,
+						localStream!,
 						setRemoteStream,
 					);
 					setConnections((x) =>
@@ -128,11 +133,10 @@ export const RTC = ({
 		return () => {
 			hubConnection.off('callFrom');
 		};
-	}, []);
+	}, [hubConnection, localStream, session, username]);
 
 	// This will call all other known players in the session
 	const call = useCallback(() => {
-		const stream = videoRef.current?.srcObject as MediaStream;
 		players.forEach((player) => {
 			if (connections.some((x) => x.username === player)) {
 				return;
@@ -163,42 +167,32 @@ export const RTC = ({
 					]),
 			);
 
-			stream
-				.getTracks()
-				.forEach((track) => peerConnection.addTrack(track, stream));
+			if (localStream) {
+				localStream
+					.getTracks()
+					.forEach((track) => peerConnection.addTrack(track, localStream));
+			}
 		});
-	}, [players]);
+	}, [players, connections, hubConnection, username, session, localStream]);
 
 	return (
 		<div className="flex flex-col justify-center items-center">
 			<Button onClick={call}>Call</Button>
 			<div className="flex flex-row">
-				<div>
-					<h2>{username}</h2>
-					<video
-						ref={videoRef}
-						autoPlay={true}
-						muted={true}
-						height={'200'}
-						width={'200'}
-					/>
-				</div>
-				{connections
-					.filter((x) => x.stream !== undefined)
-					.map((x) => (
-						<RemoteVideo
-							key={x.username}
-							username={x.username}
-							stream={x.stream!}
+				{showSelf && (
+					<div>
+						<h2>{username}</h2>
+						<video
+							ref={videoRef}
+							autoPlay={true}
+							muted={true}
+							height={'200'}
+							width={'200'}
 						/>
-					))}
+					</div>
+				)}
+				<RemoteVideos connections={connections} />
 			</div>
 		</div>
 	);
 };
-
-interface Connection {
-	username: string;
-	peerConnection: RTCPeerConnection;
-	stream?: MediaStream;
-}

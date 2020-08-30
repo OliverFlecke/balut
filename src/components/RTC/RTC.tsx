@@ -9,7 +9,7 @@ import {
 } from './connectionHandler';
 import { RemoteVideos } from './RemoteVideo';
 
-export const mediaConstraints = { video: { facingMode: 'user' } };
+export const mediaConstraints = { video: { facingMode: 'user' }, audio: true };
 
 interface RTCProps {
 	username: string;
@@ -27,7 +27,7 @@ export const RTC = ({
 	const [localStream, setLocalStream] = useState<MediaStream | undefined>();
 	const videoRef = useRef<HTMLVideoElement>(null);
 	const [connections, setConnections] = useState<Connection[]>([]);
-	const showSelf = true;
+	const showSelf = false;
 
 	const setRemoteStream = (username: string, stream: MediaStream) => {
 		console.debug(`Setting stream for ${username}`);
@@ -50,7 +50,10 @@ export const RTC = ({
 		}
 		navigator.mediaDevices
 			.getUserMedia(mediaConstraints)
-			.then(setLocalStream)
+			.then((stream) => {
+				console.log(stream);
+				setLocalStream(stream);
+			})
 			.catch((err) => console.error(err));
 	}, []);
 
@@ -185,7 +188,6 @@ export const RTC = ({
 						<video
 							ref={videoRef}
 							autoPlay={true}
-							muted={true}
 							height={'200'}
 							width={'200'}
 						/>

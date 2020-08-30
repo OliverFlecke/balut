@@ -19,7 +19,7 @@ const RemoteVideo = ({ stream, username }: RemoteVideoProps) => {
 	return (
 		<VideoContainer>
 			<Username>{username}</Username>
-			<Video key={username} ref={videoRef} autoPlay={true} muted={true} />
+			<Video key={username} ref={videoRef} autoPlay={true} />
 		</VideoContainer>
 	);
 };

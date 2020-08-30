@@ -1,5 +1,6 @@
 import React, { useCallback } from 'react';
 import styled from 'styled-components';
+import tw from 'tailwind.macro';
 
 interface ModalProps {
 	visible: boolean;
@@ -27,9 +28,9 @@ export const Modal = ({ children, visible, dismiss }: ModalProps) => {
 
 	return (
 		<Container onClick={dismissClick}>
-			<VerticalCenter>
+			<div className="flex justify-center items-center w-full h-full">
 				<ContentContainer onClick={clickCapture}>{children}</ContentContainer>
-			</VerticalCenter>
+			</div>
 		</Container>
 	);
 };
@@ -38,26 +39,12 @@ const Container = styled.div`
 	position: fixed;
 	top: 0;
 	left: 0;
-	width: 100%;
-	height: 100%;
 	background: rgba(0, 0, 0, 0.7);
+
+	${tw`w-full h-full`}
 `;
 
 const ContentContainer = styled.div`
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	padding: 16px;
-	background: #666;
-	border-radius: 6px;
-	max-width: 50%;
-`;
-
-const VerticalCenter = styled.div`
-	display: flex;
-	flex-direction: row;
-	justify-content: center;
-	align-items: center;
-	height: 100%;
-	width: 100%;
+	background: rgba(20, 20, 20, 1);
+	${tw`flex flex-center items-center rounded p-4`}
 `;

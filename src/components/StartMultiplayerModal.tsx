@@ -1,13 +1,14 @@
 import { HubConnection } from '@microsoft/signalr';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
+import tw from 'tailwind.macro';
 import { url } from '../App';
 import { initConnection } from '../connection';
 import {
 	AddPlayerAction,
 	SetConnectionAction,
-	SetSessionAction,
 	SetNameAction,
+	SetSessionAction,
 } from '../state/AppActions';
 import { Action, AppState } from '../state/AppState';
 import { Button } from '../styles/elements';
@@ -114,48 +115,31 @@ export const StartMultiplayerModal = ({
 
 	return (
 		<Modal visible={visible} dismiss={dismiss}>
-			<Container>
+			<div className="flex flex-center flex-col w-full">
 				<H3>Create new game</H3>
 				<Form onSubmit={startGameSubmit}>
 					<Input ref={nameRef} placeholder="Your name" />
 					<Button type="submit">Start</Button>
 				</Form>
-				<Line />
+				<hr className="w-full my-2" />
 				<H3>Join a game</H3>
 				<Form onSubmit={joinGameSubmit}>
 					<Input ref={sessionRef} placeholder="Enter code" />
 					<Button type="submit">Join</Button>
 				</Form>
-			</Container>
+			</div>
 		</Modal>
 	);
 };
 
 const Input = styled.input`
-	border-radius: 6px;
-	padding: 6px;
-	margin: 6px 0;
+	${tw`w-full p-2 m-0 my-2 rounded bg-black text-gray-200`}
 `;
 
 const Form = styled.form`
-	width: 100%;
-	display: flex;
-	flex-direction: column;
-`;
-
-const Container = styled.div`
-	display: flex;
-	justify-content: center;
-	flex-direction: column;
+	${tw`w-full flex flex-col`}
 `;
 
 const H3 = styled.h3`
-	padding: 0;
-	margin: 0;
-	margin-bottom: 6px;
-	text-align: center;
-`;
-
-const Line = styled.hr`
-	width: 100%;
+	${tw`text-xl p-0 m-0 text-center`}
 `;

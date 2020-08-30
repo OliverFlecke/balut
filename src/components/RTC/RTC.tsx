@@ -56,7 +56,11 @@ export const RTC = ({
 	}, []);
 
 	useEffect(() => {
-		hubConnection.on('callFrom', (otherUser, type, obj) => {
+		hubConnection.on('callFrom', (otherUser, target, type, obj) => {
+			if (target !== username) {
+				return;
+			}
+
 			switch (type) {
 				case 'video-offer':
 					const peerConnection = answerCall(
@@ -133,6 +137,7 @@ export const RTC = ({
 			if (connections.some((x) => x.username === player)) {
 				return;
 			}
+			console.log(`Calling ${player}`);
 			const peerConnection = createPeerConnection(
 				hubConnection,
 				username,
@@ -145,6 +150,7 @@ export const RTC = ({
 				hubConnection,
 				session,
 				username,
+				player,
 			);
 			setConnections((c) =>
 				c

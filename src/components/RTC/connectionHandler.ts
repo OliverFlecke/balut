@@ -32,6 +32,7 @@ export function answerCall(
 				'call',
 				session,
 				username,
+				caller,
 				'video-answer',
 				peerConnection.localDescription,
 			);
@@ -63,6 +64,7 @@ export function createPeerConnection(
 				'call',
 				session,
 				username,
+				target,
 				'new-ice-candidate',
 				event.candidate,
 			);
@@ -88,6 +90,7 @@ export function setupOnNegotiationNeeded(
 	hubConnection: HubConnection,
 	session: string,
 	username: string,
+	target: string,
 ) {
 	function handleNegotiationNeededEvent() {
 		peerConnection
@@ -98,6 +101,7 @@ export function setupOnNegotiationNeeded(
 					'call',
 					session,
 					username,
+					target,
 					'video-offer',
 					peerConnection.localDescription,
 				);

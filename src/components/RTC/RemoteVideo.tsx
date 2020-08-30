@@ -10,8 +10,6 @@ export const RemoteVideo = ({ stream, username }: RemoteVideoProps) => {
 
 	useEffect(() => {
 		if (videoRef.current) {
-			console.log(`Setting stream on video ref for ${username}`);
-			console.log(stream);
 			videoRef.current.srcObject = stream;
 		}
 	}, [videoRef, stream]);

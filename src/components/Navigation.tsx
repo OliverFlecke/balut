@@ -6,7 +6,7 @@ interface NavigationProps {
 	showMultiplayer: () => void;
 }
 
-const linkClasses = 'text-lg mx-2 pointer no-underline';
+const linkClasses = 'text-lg mx-2 pointer no-underline text-blue-400';
 
 export const Navigation = ({
 	shouldShowMultiplayer,

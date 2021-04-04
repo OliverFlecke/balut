@@ -20,7 +20,6 @@ module.exports = {
 			version: 'detect',
 		},
 	},
-	parser: '@typescript-eslint/parser',
 	parserOptions: {
 		ecmaFeatures: {
 			jsx: true,
@@ -32,10 +31,12 @@ module.exports = {
 	rules: {
 		'prettier/prettier': 'warn',
 		'no-case-declarations': 'off',
+		'no-use-before-define': 'off',
 		'@typescript-eslint/explicit-function-return-type': 'off',
 		'@typescript-eslint/explicit-module-boundary-types': 'off',
 		'@typescript-eslint/no-use-before-define': 'off',
 		'react-hooks/rules-of-hooks': 'error',
 		'react-hooks/exhaustive-deps': 'warn',
+		'react/react-in-jsx-scope': 'off',
 	},
 };

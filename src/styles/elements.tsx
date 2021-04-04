@@ -1,32 +1,48 @@
-import styled from 'styled-components';
-import theme from 'styled-theming';
-import { darkColors } from './colors';
-import tw from 'tailwind.macro';
+interface DefaultProps {
+	children?: any;
+	className?: string;
+}
 
-const backgroundColor = theme.variants('mode', 'variant', {
-	disabled: { dark: 'darkgray' },
-	primary: { dark: 'darkblue' },
-});
-const color = theme.variants('mode', 'variant', {
-	disabled: { dark: darkColors.color },
-	primary: { dark: darkColors.color },
-});
+export const Button = (
+	props: React.DetailedHTMLProps<
+		React.ButtonHTMLAttributes<HTMLButtonElement>,
+		HTMLButtonElement
+	> & { variant?: 'primary' | 'disabled' },
+) => (
+	<button
+		className={`bg-blue-500 rounded p-2 pr-3 pl-3 m-1 text-xl ${props.className}`}
+	>
+		{props.children}
+	</button>
+);
 
-export const Button = styled.button`
-	/* background-color: ${backgroundColor}; */
-	color: ${color};
+export const Ul = (props: DefaultProps) => (
+	<ul className={`inline p-0 m-0 list-none ${props.className}`}>
+		{props.children}
+	</ul>
+);
+export const Li = (props: DefaultProps) => (
+	<li className={`flex justify-between ${props.className}`}>
+		{props.children}
+	</li>
+);
 
-	${tw`bg-blue-500 rounded p-2 pr-3 pl-3 m-1 text-xl`}
-`;
+export const H3 = (props: DefaultProps) => (
+	<h3 className="p-0 m-0 mb-2 text-center">{props.children}</h3>
+);
 
-export const Ul = styled.ul`
-	display: inline;
-	list-style-type: none;
-	padding: 0;
-	margin: 0;
-`;
+export const Form = (
+	props: React.DetailedHTMLProps<
+		React.FormHTMLAttributes<HTMLFormElement>,
+		HTMLFormElement
+	>,
+) => <form {...props} className="w-full flex flex-col" />;
 
-export const Li = styled.li`
-	display: flex;
-	justify-content: space-between;
-`;
+export const Input = (
+	props: React.DetailedHTMLProps<
+		React.InputHTMLAttributes<HTMLInputElement>,
+		HTMLInputElement
+	>,
+) => <input {...props} className="border rounded p-2 my-2" />;
+
+export const Line = () => <hr className="w-full" />;

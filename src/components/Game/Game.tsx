@@ -1,5 +1,4 @@
-import React, { useCallback, useEffect, useReducer, useState } from 'react';
-import styled from 'styled-components';
+import { useCallback, useEffect, useReducer, useState } from 'react';
 import { Category } from '../../Category';
 import { Button } from '../../styles/elements';
 import { Board } from '../Board/Board';
@@ -61,14 +60,14 @@ export const Game = ({ onTurnFinished }: GameProps) => {
 	}, [dispatch]);
 
 	return (
-		<Container>
+		<div className="flex flex-col items-center">
 			<Board roll={state.roll} values={state.values} writeValue={writeValue} />
 			<h3>
 				{state.rollNumber === 0
 					? 'Roll your dice!'
 					: `Roll #${state.rollNumber} of 3`}
 			</h3>
-			<DiceContainer>
+			<div className="flex justify-center flex-wrap">
 				{roll?.map((x, i) => (
 					<Dice
 						key={i}
@@ -78,9 +77,9 @@ export const Game = ({ onTurnFinished }: GameProps) => {
 						locked={state.locked[i]}
 					/>
 				))}
-			</DiceContainer>
+			</div>
 
-			<ButtonContainer>
+			<div className="flex my-2">
 				<Button
 					variant={state.rollNumber === 3 ? 'disabled' : 'primary'}
 					onClick={executeRoll}
@@ -88,26 +87,9 @@ export const Game = ({ onTurnFinished }: GameProps) => {
 				>
 					Roll
 				</Button>
-			</ButtonContainer>
+			</div>
 
 			<BoardControls clearBoard={clearBoard} />
-		</Container>
+		</div>
 	);
 };
-
-const Container = styled.div`
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-`;
-
-const DiceContainer = styled.div`
-	display: flex;
-	justify-content: center;
-	flex-wrap: wrap;
-`;
-
-const ButtonContainer = styled.div`
-	display: flex;
-	margin: 6px -6px;
-`;

@@ -1,5 +1,4 @@
-import React, { useCallback } from 'react';
-import styled from 'styled-components';
+import { useCallback } from 'react';
 
 interface ModalProps {
 	visible: boolean;
@@ -26,38 +25,18 @@ export const Modal = ({ children, visible, dismiss }: ModalProps) => {
 	}
 
 	return (
-		<Container onClick={dismissClick}>
-			<VerticalCenter>
-				<ContentContainer onClick={clickCapture}>{children}</ContentContainer>
-			</VerticalCenter>
-		</Container>
+		<div
+			onClick={dismissClick}
+			className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-70"
+		>
+			<div className="w-full h-full flex flew-row justify-center items-center">
+				<div
+					onClick={clickCapture}
+					className="max-w-xl flex justify-center items-center p-4 bg-gray-700 rounded"
+				>
+					{children}
+				</div>
+			</div>
+		</div>
 	);
 };
-
-const Container = styled.div`
-	position: fixed;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
-	background: rgba(0, 0, 0, 0.7);
-`;
-
-const ContentContainer = styled.div`
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	padding: 16px;
-	background: #666;
-	border-radius: 6px;
-	max-width: 50%;
-`;
-
-const VerticalCenter = styled.div`
-	display: flex;
-	flex-direction: row;
-	justify-content: center;
-	align-items: center;
-	height: 100%;
-	width: 100%;
-`;

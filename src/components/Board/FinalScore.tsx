@@ -1,29 +1,12 @@
-import React from 'react';
-import { maxWidth } from '../../styles/table';
-import styled from 'styled-components';
-
 interface FinalScoreProps {
 	points: number;
 }
 
 export const FinalScore = ({ points }: FinalScoreProps) => (
-	<Wrapper>
-		<ScoreContainer>
+	<div className="flex justify-end w-full my-2 max-w-3xl">
+		<div className="text-2xl border-b-2 border-white">
 			<span>Final score: </span>
 			<span>{points}</span>
-		</ScoreContainer>
-	</Wrapper>
+		</div>
+	</div>
 );
-
-const Wrapper = styled.div`
-	display: flex;
-	width: 100%;
-	justify-content: flex-end;
-	margin: 6px 0;
-	max-width: ${maxWidth};
-`;
-
-const ScoreContainer = styled.div`
-	font-size: 1.4em;
-	border-bottom: 1px solid white;
-`;

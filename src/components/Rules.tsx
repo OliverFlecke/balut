@@ -1,5 +1,3 @@
-import React from 'react';
-import styled from 'styled-components';
 import { Category, categoryToString } from '../Category';
 import { Li, Ul } from '../styles/elements';
 
@@ -27,8 +25,8 @@ const extraPoints = [
 
 export const Rules = () => {
 	return (
-		<Container>
-			<Wrapper>
+		<div className="w-full flex justify-center flex-wrap">
+			<div className="w-full max-w-sm">
 				<h3>How to calculate points</h3>
 				<Ul>
 					{points.map(([category, description, points]) => (
@@ -51,19 +49,7 @@ export const Rules = () => {
 						</Li>
 					))}
 				</Ul>
-			</Wrapper>
-		</Container>
+			</div>
+		</div>
 	);
 };
-
-const Container = styled.div`
-	width: 100%;
-	display: flex;
-	justify-content: center;
-	flex-wrap: wrap;
-`;
-
-const Wrapper = styled.div`
-	width: 100%;
-	max-width: 350px;
-`;

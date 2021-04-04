@@ -1,8 +1,5 @@
-import React, { useCallback } from 'react';
-import styled from 'styled-components';
-import theme from 'styled-theming';
+import { useCallback } from 'react';
 import { Category } from '../../Category';
-import { darkColors } from '../../styles/colors';
 import { Td } from '../../styles/table';
 import { WriteValue, Value } from '../Game/state/GameState';
 
@@ -28,11 +25,7 @@ export const Cell = ({
 	}, [writeValue, index, suggestion, category]);
 
 	return (
-		<TdCell
-			onClick={onClick}
-			variant={suggestion ? 'suggestion' : 'default'}
-			className={'bg-blue-400'}
-		>
+		<TdCell onClick={onClick} variant={suggestion ? 'suggestion' : 'default'}>
 			{valueToString(value !== null ? value : suggestion)}
 		</TdCell>
 	);
@@ -47,20 +40,18 @@ function valueToString(value?: Value): string {
 		return value.toString();
 	}
 }
+type TdCellProps = {
+	variant: 'suggestion' | 'default';
+} & React.DetailedHTMLProps<
+	React.TdHTMLAttributes<HTMLTableDataCellElement>,
+	HTMLTableDataCellElement
+>;
 
-const backgroundColor = theme('mode', {
-	dark: darkColors.secondaryBackgroundColor,
-});
-
-const color = theme.variants('mode', 'variant', {
-	default: { dark: darkColors.color },
-	suggestion: { dark: darkColors.suggestion },
-});
-
-const TdCell = styled(Td)`
-	background-color: ${backgroundColor};
-	color: ${color};
-	user-select: none;
-	padding: 0 4px;
-	height: 2em;
-`;
+const TdCell = (props: TdCellProps) => (
+	<Td
+		{...props}
+		className={`py-1 h-8 select-none bg-gray-300 dark:bg-gray-700 ${
+			props.variant === 'suggestion' ? 'text-blue-600' : ''
+		}`}
+	/>
+);

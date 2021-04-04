@@ -1,48 +1,36 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
-import styled from 'styled-components';
 import { Li, Ul } from '../styles/elements';
-import { navColor } from '../styles/colors';
 
 interface NavigationProps {
 	shouldShowMultiplayer: boolean;
 	showMultiplayer: () => void;
 }
 
+const linkClasses = 'text-lg mx-2 pointer no-underline';
+
 export const Navigation = ({
 	shouldShowMultiplayer,
 	showMultiplayer,
 }: NavigationProps) => (
-	<Nav>
-		<NavUl>
-			<NavLi>
-				<Link to="/">Game</Link>
-			</NavLi>
-			<NavLi>
-				<Link to="/rules">Rules</Link>
-			</NavLi>
+	<nav>
+		<Ul className="flex flex-row">
+			<Li>
+				<Link to="/" className={linkClasses}>
+					Game
+				</Link>
+			</Li>
+			<Li>
+				<Link to="/rules" className={linkClasses}>
+					Rules
+				</Link>
+			</Li>
 			{shouldShowMultiplayer && (
-				<NavLi>
-					<a onClick={showMultiplayer}>Multiplayer</a>
-				</NavLi>
+				<Li>
+					<a onClick={showMultiplayer} className={linkClasses}>
+						Multiplayer
+					</a>
+				</Li>
 			)}
-		</NavUl>
-	</Nav>
+		</Ul>
+	</nav>
 );
-
-const Nav = styled.nav`
-	a {
-		color: ${navColor};
-		text-decoration: none;
-		font-size: 1.2em;
-		margin: 0 8px;
-		cursor: pointer;
-	}
-`;
-
-const NavUl = styled(Ul)`
-	display: flex;
-	flex-direction: row;
-`;
-
-const NavLi = styled(Li)``;

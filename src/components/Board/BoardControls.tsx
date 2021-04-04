@@ -1,5 +1,3 @@
-import React from 'react';
-import styled from 'styled-components';
 import { Button } from '../../styles/elements';
 
 interface BoardControlsProps {
@@ -7,15 +5,7 @@ interface BoardControlsProps {
 }
 
 export const BoardControls = ({ clearBoard }: BoardControlsProps) => (
-	<Wrapper>
-		<Button variant="primary" onClick={clearBoard}>
-			New game
-		</Button>
-	</Wrapper>
+	<div className="flex justify-end">
+		<Button onClick={clearBoard}>New game</Button>
+	</div>
 );
-
-const Wrapper = styled.div`
-	display: flex;
-	justify-content: right;
-	margin: 0 -6px -6px;
-`;

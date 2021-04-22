@@ -1,5 +1,5 @@
 import { Category, categoryToString } from '../Category';
-import { Li, Ul } from '../styles/elements';
+import { Li, Ul, H3, H4 } from '../styles/elements';
 
 const points = [
 	[Category.Fours, '52 or more', 2],
@@ -27,7 +27,7 @@ export const Rules = () => {
 	return (
 		<div className="w-full flex justify-center flex-wrap">
 			<div className="w-full max-w-sm">
-				<h3>How to calculate points</h3>
+				<H3>How to calculate points</H3>
 				<Ul>
 					{points.map(([category, description, points]) => (
 						<Li key={category}>
@@ -38,7 +38,7 @@ export const Rules = () => {
 						</Li>
 					))}
 				</Ul>
-				<h4>Extra points from total score</h4>
+				<H4>Extra points from total score</H4>
 				<Ul>
 					{extraPoints.map(([lower, higher, points]) => (
 						<Li key={points}>

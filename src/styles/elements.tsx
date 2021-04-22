@@ -40,8 +40,28 @@ export const Li = (props: DefaultProps) => (
 	</li>
 );
 
-export const H3 = (props: DefaultProps) => (
-	<h3 className="p-0 m-0 mb-2 text-center">{props.children}</h3>
+export const H3 = (
+	props: React.DetailedHTMLProps<
+		React.HTMLAttributes<HTMLHeadingElement>,
+		HTMLHeadingElement
+	>,
+) => (
+	<h3
+		{...props}
+		className={`p-0 m-0 mb-2 text-xl text-center text-gray-700 dark:text-gray-400 ${props.className}`}
+	/>
+);
+
+export const H4 = (
+	props: React.DetailedHTMLProps<
+		React.HTMLAttributes<HTMLHeadingElement>,
+		HTMLHeadingElement
+	>,
+) => (
+	<h4
+		{...props}
+		className={`text-lg my-2 text-gray-700 dark:text-gray-400 ${props.className}`}
+	/>
 );
 
 export const Form = (

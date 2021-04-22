@@ -81,7 +81,7 @@ export const StartMultiplayerModal = ({
 				dismiss();
 			}
 		},
-		[sessionRef, nameRef, dismiss, dispatch],
+		[dismiss, dispatch],
 	);
 	const joinGameSubmit = useCallback(
 		(e: React.FormEvent<HTMLFormElement>) => {
@@ -101,7 +101,7 @@ export const StartMultiplayerModal = ({
 				}
 			})
 			.catch(() => setFailed(true));
-	}, [dispatch, setFailed]);
+	}, [dispatch, joinGame, setFailed, state.name, state.session]);
 
 	if (failed) {
 		return (

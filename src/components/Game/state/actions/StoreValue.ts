@@ -1,10 +1,5 @@
 import { Category } from '../../../../Category';
-import {
-	Value,
-	GameState,
-	BalutValues,
-	GameAction,
-} from '../GameState';
+import { Value, GameState, BalutValues, GameAction } from '../GameState';
 
 export class StoreValue implements GameAction {
 	public category: Category;

@@ -6,6 +6,9 @@
 	"license": "MIT",
 	"repository": "https://github.com/OliverFlecke/balut-react",
 	"private": false,
+	"engines": {
+		"node": "^16"
+	},
 	"scripts": {
 		"build:css": "postcss src/tailwind.css -o src/index.css",
 		"start": "yarn run build:css & react-scripts start",

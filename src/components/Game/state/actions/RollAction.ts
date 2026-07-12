@@ -1,5 +1,5 @@
-import { GameAction, GameState } from '../GameState';
-import { doRoll } from '../gameUtils';
+import type { GameAction, GameState } from "../GameState";
+import { doRoll } from "../gameUtils";
 
 export class RollAction implements GameAction {
 	reduce(state: GameState): GameState {

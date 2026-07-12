@@ -1,23 +1,28 @@
-import { useCallback } from 'react';
+import { useCallback } from "react";
 
 interface ModalProps {
 	visible: boolean;
 	dismiss?: () => void;
-	children?: JSX.Element;
+	children?: React.ReactNode;
 }
 
 export const Modal = ({ children, visible, dismiss }: ModalProps) => {
-	const dismissClick = useCallback(() => {
-		if (dismiss) {
-			dismiss();
-		}
-	}, [dismiss]);
-
-	const clickCapture = useCallback(
-		(e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-			e.stopPropagation();
+	const dismissClick = useCallback(
+		(e: React.MouseEvent<HTMLDivElement>) => {
+			if (e.target === e.currentTarget) {
+				dismiss?.();
+			}
 		},
-		[],
+		[dismiss],
+	);
+
+	const handleKeyDown = useCallback(
+		(e: React.KeyboardEvent<HTMLDivElement>) => {
+			if (e.key === "Escape") {
+				dismiss?.();
+			}
+		},
+		[dismiss],
 	);
 
 	if (!visible) {
@@ -25,15 +30,14 @@ export const Modal = ({ children, visible, dismiss }: ModalProps) => {
 	}
 
 	return (
+		// biome-ignore lint/a11y/noStaticElementInteractions: backdrop with click-to-dismiss
 		<div
 			onClick={dismissClick}
-			className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-70"
+			onKeyDown={handleKeyDown}
+			className="fixed top-0 left-0 w-full h-full bg-black/70"
 		>
 			<div className="w-full h-full flex flew-row justify-center items-center">
-				<div
-					onClick={clickCapture}
-					className="max-w-xl flex justify-center items-center p-4 bg-gray-700 rounded"
-				>
+				<div className="max-w-xl flex justify-center items-center p-4 bg-gray-700 rounded">
 					{children}
 				</div>
 			</div>

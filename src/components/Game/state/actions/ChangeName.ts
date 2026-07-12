@@ -1,4 +1,4 @@
-import { GameAction, GameState } from '../GameState';
+import type { GameAction, GameState } from "../GameState";
 
 export class ChangeName implements GameAction {
 	name?: string;

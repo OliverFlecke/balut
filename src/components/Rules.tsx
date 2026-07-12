@@ -1,14 +1,14 @@
-import { Category, categoryToString } from '../Category';
-import { Li, Ul, H3, H4 } from '../styles/elements';
+import { Category, categoryToString } from "../Category";
+import { H3, H4, Li, Ul } from "../styles/elements";
 
 const points = [
-	[Category.Fours, '52 or more', 2],
-	[Category.Fives, '65 or more', 2],
-	[Category.Sixes, '78 or more', 2],
-	[Category.Straight, 'All straights', 4],
-	[Category.FullHouse, 'All full house', 3],
-	[Category.Chance, '100 or more', 2],
-	[Category.Balut, 'Each balut', 2],
+	[Category.Fours, "52 or more", 2],
+	[Category.Fives, "65 or more", 2],
+	[Category.Sixes, "78 or more", 2],
+	[Category.Straight, "All straights", 4],
+	[Category.FullHouse, "All full house", 3],
+	[Category.Chance, "100 or more", 2],
+	[Category.Balut, "Each balut", 2],
 ];
 
 const extraPoints = [
@@ -20,7 +20,7 @@ const extraPoints = [
 	[500, 549, 3],
 	[549, 599, 4],
 	[600, 649, 5],
-	[650, 'or above', 6],
+	[650, "or above", 6],
 ];
 
 export const Rules = () => {

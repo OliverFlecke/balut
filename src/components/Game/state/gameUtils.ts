@@ -1,4 +1,4 @@
-import { RollLock, Roll } from './GameState';
+import type { Roll, RollLock } from "./GameState";
 
 export function randomDice(): number {
 	return Math.floor(Math.random() * 6) + 1;

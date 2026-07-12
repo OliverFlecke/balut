@@ -1,11 +1,13 @@
-import { HubConnection } from '@microsoft/signalr';
-import React, { useCallback, useState, useEffect } from 'react';
-import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
-import 'react-tabs/style/react-tabs.css';
-import { PlayerState, Action } from '../state/AppState';
-import { Board } from './Board/Board';
-import { Game } from './Game/Game';
-import { UpdatePlayerStateAction } from '../state/AppActions';
+import type { HubConnection } from "@microsoft/signalr";
+import type React from "react";
+import { useCallback, useEffect, useState } from "react";
+import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
+import "react-tabs/style/react-tabs.css";
+import { UpdatePlayerStateAction } from "../state/AppActions";
+import type { Action, PlayerState } from "../state/AppState";
+import { Board } from "./Board/Board";
+import { Game } from "./Game/Game";
+import type { BalutValues } from "./Game/state/GameState";
 
 interface MultiplayerGameProps {
 	name: string;
@@ -23,22 +25,19 @@ export const MultiplayerGame = ({
 	dispatch,
 }: MultiplayerGameProps) => {
 	const [index, setIndex] = useState(0);
-	const onSelect = useCallback(
-		(index) => {
-			setIndex(index);
-		},
-		[setIndex],
-	);
+	const onSelect = useCallback((index: number) => {
+		setIndex(index);
+	}, []);
 
 	const onTurnFinished = useCallback(
-		(values) => {
-			console.log('Sending state');
-			connection.invoke('sendState', session, name, values);
+		(values: BalutValues) => {
+			console.log("Sending state");
+			connection.invoke("sendState", session, name, values);
 		},
 		[connection, session, name],
 	);
 	useEffect(() => {
-		connection.on('newState', (name, values) => {
+		connection.on("newState", (name, values) => {
 			dispatch(new UpdatePlayerStateAction(name, values));
 		});
 	}, [connection, dispatch]);

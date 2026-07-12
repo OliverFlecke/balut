@@ -1,7 +1,7 @@
-import React from 'react';
-import { resetLocked } from './gameUtils';
-import { Category } from '../../../Category';
-import { enumStrings } from '../../../utils/enums';
+import React from "react";
+import { Category } from "../../../Category";
+import { enumStrings } from "../../../utils/enums";
+import { resetLocked } from "./gameUtils";
 
 export interface GameState {
 	roll?: Roll;
@@ -15,26 +15,37 @@ export interface GameAction {
 	reduce(state: GameState): GameState;
 }
 
+function isBrowser(): boolean {
+	return typeof window !== "undefined" && typeof localStorage !== "undefined";
+}
+
 export function gameReducer(state: GameState, action: GameAction): GameState {
 	const newState = action.reduce(state);
-	localStorage.setItem('gameState', JSON.stringify(newState));
+
+	if (isBrowser()) {
+		localStorage.setItem("gameState", JSON.stringify(newState));
+	}
 
 	return newState;
 }
 
-export const GameContext = React.createContext<{
+interface GameContextValue {
 	state: GameState;
 	dispatch: React.Dispatch<GameAction>;
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-}>({} as any);
+}
+
+export const GameContext = React.createContext<GameContextValue>(
+	null as unknown as GameContextValue,
+);
 
 export function initialGameState(): GameState {
-	const stored = localStorage.getItem('gameState');
-
-	if (stored !== null) {
-		try {
-			return JSON.parse(stored) as GameState;
-		} catch {}
+	if (isBrowser()) {
+		const stored = localStorage.getItem("gameState");
+		if (stored !== null) {
+			try {
+				return JSON.parse(stored) as GameState;
+			} catch {}
+		}
 	}
 
 	return {
@@ -45,8 +56,7 @@ export function initialGameState(): GameState {
 }
 
 export function initBalutValues(): BalutValues {
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	return enumStrings(Category).reduce((acc: any, key) => {
+	return enumStrings(Category).reduce<Record<string, RowState>>((acc, key) => {
 		acc[key] = [null, null, null, null];
 
 		return acc;
@@ -61,7 +71,7 @@ export type BalutValues = { [key: string]: RowState };
 // 'null' = cell unused
 // 'X' = cell scratched
 // else the value entered
-export type Value = number | 'X' | null;
+export type Value = number | "X" | null;
 export type RowState = [Value, Value, Value, Value];
 
 export type WriteValue = (

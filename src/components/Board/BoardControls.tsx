@@ -1,4 +1,4 @@
-import { Button } from '../../styles/elements';
+import { Button } from "../../styles/elements";
 
 interface BoardControlsProps {
 	clearBoard?: () => void;

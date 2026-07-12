@@ -1,1 +1,1 @@
-declare module 'tailwind.macro';
+declare module "tailwind.macro";

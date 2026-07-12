@@ -7,69 +7,36 @@
 	"repository": "https://github.com/OliverFlecke/balut-react",
 	"private": false,
 	"engines": {
-		"node": "^16"
+		"node": ">=26"
 	},
 	"scripts": {
-		"build:css": "postcss src/tailwind.css -o src/index.css",
-		"start": "yarn run build:css & react-scripts start",
-		"build": "react-scripts build",
-		"test": "react-scripts test",
-		"eject": "react-scripts eject",
-		"predeploy": "react-scripts build",
-		"deploy": "gh-pages -d build"
-	},
-	"eslintConfig": {
-		"extends": "react-app"
-	},
-	"browserslist": {
-		"production": [
-			">0.2%",
-			"not dead",
-			"not op_mini all"
-		],
-		"development": [
-			"last 1 chrome version",
-			"last 1 firefox version",
-			"last 1 safari version"
-		]
+		"dev": "next dev --experimental-https",
+		"build": "next build",
+		"start": "npx serve@latest out",
+		"lint": "biome lint",
+		"fmt": "biome format --write",
+		"deploy": "pnpm run build && wrangler deploy",
+		"preview": "pnpm run build && wrangler dev"
 	},
 	"dependencies": {
 		"@microsoft/signalr": "^5.0.4",
-		"react": "^17.0.2",
-		"react-dom": "^17.0.2",
+		"next": "^16.2.10",
+		"react": "^19.0.0",
+		"react-dom": "^19.0.0",
 		"react-icons": "^4.2.0",
-		"react-router-dom": "^5.2.0",
-		"react-scripts": "4.0.3",
 		"react-tabs": "^3.1.1"
 	},
 	"devDependencies": {
-		"@testing-library/jest-dom": "^5.11.10",
-		"@testing-library/react": "^11.2.6",
-		"@testing-library/user-event": "^13.1.1",
-		"@types/jest": "^26.0.22",
-		"@types/node": "^14.14.37",
-		"@types/react": "^17.0.3",
-		"@types/react-dom": "^17.0.3",
-		"@types/react-router-dom": "^5.1.5",
+		"@biomejs/biome": "^2.5.3",
+		"@tailwindcss/postcss": "^4.3.2",
+		"@types/node": "26.1.1",
+		"@types/react": "^19.0.0",
+		"@types/react-dom": "^19.0.0",
 		"@types/react-tabs": "^2.3.2",
-		"@types/styled-components": "^5.1.1",
-		"@types/styled-theming": "^2.2.4",
-		"@typescript-eslint/eslint-plugin": "^4.20.0",
-		"@typescript-eslint/parser": "^4.20.0",
-		"autoprefixer": "^10.2.5",
-		"babel-plugin-macros": "^3.0.1",
-		"eslint": "^7.23.0",
-		"eslint-config-prettier": "^8.1.0",
-		"eslint-config-standard": "^16.0.2",
-		"eslint-plugin-node": "^11.1.0",
-		"eslint-plugin-prettier": "^3.1.4",
-		"eslint-plugin-promise": "^4.2.1",
-		"eslint-plugin-standard": "^5.0.0",
-		"gh-pages": "^3.1.0",
 		"postcss": "^8.2.9",
-		"postcss-cli": "^8.3.1",
 		"prettier": "^2.0.5",
-		"tailwindcss": "^2.0.4",
-		"typescript": "^4.2.3"
+		"tailwindcss": "^4.3.2",
+		"typescript": "^5.9.3",
+		"wrangler": "^4.110.0"
 	}
 }

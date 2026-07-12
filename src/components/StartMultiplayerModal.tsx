@@ -1,16 +1,15 @@
-import { HubConnection } from '@microsoft/signalr';
-import { useCallback, useEffect, useRef, useState } from 'react';
-import { url } from '../App';
-import { initConnection } from '../connection';
+import type { HubConnection } from "@microsoft/signalr";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { initConnection, url } from "../connection";
 import {
 	AddPlayerAction,
 	SetConnectionAction,
 	SetNameAction,
 	SetSessionAction,
-} from '../state/AppActions';
-import { Action, AppState } from '../state/AppState';
-import { Button, Form, H3, Input, Line } from '../styles/elements';
-import { Modal } from './Modal';
+} from "../state/AppActions";
+import type { Action, AppState } from "../state/AppState";
+import { Button, Form, H3, Input, Line } from "../styles/elements";
+import { Modal } from "./Modal";
 
 interface StartMultiplayerModalProps {
 	visible: boolean;
@@ -33,32 +32,32 @@ export const StartMultiplayerModal = ({
 
 	useEffect(() => {
 		if (connection) {
-			connection.on('joinedSession', (session, newPlayer) => {
+			connection.on("joinedSession", (session, newPlayer) => {
 				console.log(`${newPlayer} joined ${session}`);
 				dispatch(new AddPlayerAction(newPlayer));
 
-				connection.invoke('sendWelcome', session, state.name);
+				connection.invoke("sendWelcome", session, state.name);
 			});
-			connection.on('welcomeFrom', (otherPlayer) => {
+			connection.on("welcomeFrom", (otherPlayer) => {
 				console.log(`${otherPlayer} says welcome`);
 				dispatch(new AddPlayerAction(otherPlayer));
 			});
 		}
 		return () => {
-			connection?.off('joinedSession');
-			connection?.off('welcomeFrom');
+			connection?.off("joinedSession");
+			connection?.off("welcomeFrom");
 		};
 	}, [connection, state.name, dispatch]);
 
 	// Start game
 	const startGame = useCallback(() => {
 		if (connection) {
-			connection.on('createdSession', (session) => {
+			connection.on("createdSession", (session) => {
 				dispatch(new SetSessionAction(session));
 				dismiss();
 			});
-			connection.invoke('createGame');
-			dispatch(new SetNameAction(nameRef.current?.value ?? ''));
+			connection.invoke("createGame");
+			dispatch(new SetNameAction(nameRef.current?.value ?? ""));
 		}
 	}, [connection, dispatch, dismiss]);
 	const startGameSubmit = useCallback(
@@ -75,7 +74,7 @@ export const StartMultiplayerModal = ({
 			console.log(`${name} is joining ${session}`);
 
 			if (connection && session && name) {
-				connection.invoke('join', session, name);
+				connection.invoke("join", session, name);
 				dispatch(new SetSessionAction(session));
 				dispatch(new SetNameAction(name));
 				dismiss();
@@ -101,7 +100,7 @@ export const StartMultiplayerModal = ({
 				}
 			})
 			.catch(() => setFailed(true));
-	}, [dispatch, joinGame, setFailed, state.name, state.session]);
+	}, [dispatch, joinGame, state.name, state.session]);
 
 	if (failed) {
 		return (

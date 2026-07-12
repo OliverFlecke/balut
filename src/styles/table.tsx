@@ -27,7 +27,7 @@ export const Td = (
 ) => (
 	<td
 		{...props}
-		style={{ minWidth: '2.5rem' }}
+		style={{ minWidth: "2.5rem" }}
 		className={`border p-1 text-center ${props.className}`}
 	/>
 );

@@ -10,7 +10,7 @@ export enum Category {
 
 export function categoryToString(category: Category): string {
 	if (category === Category.FullHouse) {
-		return 'Full house';
+		return "Full house";
 	}
 	return Category[category];
 }

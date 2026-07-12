@@ -13,6 +13,7 @@
 		"dev": "next dev --experimental-https",
 		"build": "next build",
 		"start": "npx serve@latest out",
+		"lint": "biome lint",
 		"fmt": "biome format --write"
 	},
 	"dependencies": {

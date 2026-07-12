@@ -1,5 +1,5 @@
 import { Category, categoryToString } from "../Category";
-import { Li, Ul, H3, H4 } from "../styles/elements";
+import { H3, H4, Li, Ul } from "../styles/elements";
 
 const points = [
 	[Category.Fours, "52 or more", 2],

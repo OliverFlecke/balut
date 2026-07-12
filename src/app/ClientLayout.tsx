@@ -11,7 +11,7 @@ export default function ClientLayout({
 }: {
 	children: React.ReactNode;
 }) {
-	const [showMPModal, setShowMPModal] = useState(false);
+	const [_showMPModal, setShowMPModal] = useState(false);
 	const [state, dispatch] = useReducer(reducer, initial());
 
 	return (

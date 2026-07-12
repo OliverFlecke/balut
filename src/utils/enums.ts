@@ -1,11 +1,9 @@
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export function enumStrings(e: any): string[] {
+export function enumStrings(e: Record<string, unknown>): string[] {
 	return Object.keys(e).filter((key) => typeof e[key] === "number");
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export function enumValues(e: any): number[] {
+export function enumValues(e: Record<string, unknown>): number[] {
 	return Object.keys(e)
 		.filter((key) => typeof e[key] !== "number")
-		.map((x) => parseInt(x));
+		.map((x) => parseInt(x, 10));
 }

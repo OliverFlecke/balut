@@ -26,9 +26,13 @@ export const Navigation = ({
 			</Li>
 			{shouldShowMultiplayer && (
 				<Li>
-					<a onClick={showMultiplayer} className={linkClasses}>
+					<button
+						type="button"
+						onClick={showMultiplayer}
+						className={linkClasses}
+					>
 						Multiplayer
-					</a>
+					</button>
 				</Li>
 			)}
 		</Ul>

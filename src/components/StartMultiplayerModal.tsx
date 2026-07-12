@@ -1,6 +1,6 @@
 import type { HubConnection } from "@microsoft/signalr";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { url, initConnection } from "../connection";
+import { initConnection, url } from "../connection";
 import {
 	AddPlayerAction,
 	SetConnectionAction,
@@ -100,7 +100,7 @@ export const StartMultiplayerModal = ({
 				}
 			})
 			.catch(() => setFailed(true));
-	}, [dispatch, joinGame, setFailed, state.name, state.session]);
+	}, [dispatch, joinGame, state.name, state.session]);
 
 	if (failed) {
 		return (

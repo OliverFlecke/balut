@@ -1,4 +1,3 @@
-import React from "react";
 import { Category } from "../../Category";
 import { Table } from "../../styles/table";
 import { enumValues } from "../../utils/enums";

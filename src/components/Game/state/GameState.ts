@@ -1,7 +1,7 @@
 import React from "react";
-import { resetLocked } from "./gameUtils";
 import { Category } from "../../../Category";
 import { enumStrings } from "../../../utils/enums";
+import { resetLocked } from "./gameUtils";
 
 export interface GameState {
 	roll?: Roll;
@@ -29,11 +29,14 @@ export function gameReducer(state: GameState, action: GameAction): GameState {
 	return newState;
 }
 
-export const GameContext = React.createContext<{
+interface GameContextValue {
 	state: GameState;
 	dispatch: React.Dispatch<GameAction>;
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-}>({} as any);
+}
+
+export const GameContext = React.createContext<GameContextValue>(
+	null as unknown as GameContextValue,
+);
 
 export function initialGameState(): GameState {
 	if (isBrowser()) {
@@ -53,8 +56,7 @@ export function initialGameState(): GameState {
 }
 
 export function initBalutValues(): BalutValues {
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	return enumStrings(Category).reduce((acc: any, key) => {
+	return enumStrings(Category).reduce<Record<string, RowState>>((acc, key) => {
 		acc[key] = [null, null, null, null];
 
 		return acc;

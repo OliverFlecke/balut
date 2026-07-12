@@ -1,13 +1,13 @@
 import type { HubConnection } from "@microsoft/signalr";
 import type React from "react";
-import { useCallback, useState, useEffect } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
-import type { PlayerState, Action } from "../state/AppState";
-import type { BalutValues } from "./Game/state/GameState";
+import { UpdatePlayerStateAction } from "../state/AppActions";
+import type { Action, PlayerState } from "../state/AppState";
 import { Board } from "./Board/Board";
 import { Game } from "./Game/Game";
-import { UpdatePlayerStateAction } from "../state/AppActions";
+import type { BalutValues } from "./Game/state/GameState";
 
 interface MultiplayerGameProps {
 	name: string;
@@ -25,12 +25,9 @@ export const MultiplayerGame = ({
 	dispatch,
 }: MultiplayerGameProps) => {
 	const [index, setIndex] = useState(0);
-	const onSelect = useCallback(
-		(index: number) => {
-			setIndex(index);
-		},
-		[setIndex],
-	);
+	const onSelect = useCallback((index: number) => {
+		setIndex(index);
+	}, []);
 
 	const onTurnFinished = useCallback(
 		(values: BalutValues) => {

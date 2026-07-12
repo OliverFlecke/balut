@@ -1,7 +1,7 @@
 import { useCallback } from "react";
 import type { Category } from "../../Category";
 import { Td } from "../../styles/table";
-import type { WriteValue, Value } from "../Game/state/GameState";
+import type { Value, WriteValue } from "../Game/state/GameState";
 
 interface CellProps {
 	category: Category;

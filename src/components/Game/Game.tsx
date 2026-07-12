@@ -4,16 +4,19 @@ import { Button } from "../../styles/elements";
 import { Board } from "../Board/Board";
 import { BoardControls } from "../Board/BoardControls";
 import { Dice } from "./Dice";
+
+const DICE_KEYS = ["dice-0", "dice-1", "dice-2", "dice-3", "dice-4"];
+
 import { ClearBoard } from "./state/actions/ClearBoard";
 import { ResetRollAction } from "./state/actions/ResetRollAction";
 import { RollAction } from "./state/actions/RollAction";
 import { StoreValue } from "./state/actions/StoreValue";
 import { ToggleDiceAction } from "./state/actions/ToggleDiceAction";
 import {
+	type BalutValues,
 	gameReducer,
 	initialGameState,
 	type Value,
-	type BalutValues,
 } from "./state/GameState";
 import { doRoll } from "./state/gameUtils";
 
@@ -35,14 +38,14 @@ export const Game = ({ onTurnFinished }: GameProps) => {
 			clearInterval(interval);
 			dispatch(new RollAction());
 		}, 1000);
-	}, [dispatch, state]);
+	}, [state]);
 	const toggleLock = useCallback(
 		(index: number) => dispatch(new ToggleDiceAction(index)),
-		[dispatch],
+		[],
 	);
 	const newRoll = useCallback(() => {
 		dispatch(new ResetRollAction());
-	}, [dispatch]);
+	}, []);
 	const writeValue = useCallback(
 		(category: Category, index: number, value: Value) => {
 			const action = new StoreValue(category, index, value);
@@ -52,12 +55,12 @@ export const Game = ({ onTurnFinished }: GameProps) => {
 				onTurnFinished(action.reduce(state).values);
 			}
 		},
-		[dispatch, newRoll, state, onTurnFinished],
+		[newRoll, state, onTurnFinished],
 	);
 	const clearBoard = useCallback(() => {
 		dispatch(new ClearBoard());
 		dispatch(new ResetRollAction());
-	}, [dispatch]);
+	}, []);
 
 	return (
 		<div className="flex flex-col items-center">
@@ -70,7 +73,7 @@ export const Game = ({ onTurnFinished }: GameProps) => {
 			<div className="flex justify-center flex-wrap">
 				{roll?.map((x, i) => (
 					<Dice
-						key={i}
+						key={DICE_KEYS[i]}
 						dice={x}
 						index={i}
 						toggleLock={toggleLock}

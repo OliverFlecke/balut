@@ -1,0 +1,9 @@
+allowBuilds:
+  core-js: true
+  core-js-pure: true
+  ejs: true
+  es5-ext: true
+  esbuild: set this to true or false
+  fsevents: true
+  sharp: set this to true or false
+  workerd: set this to true or false

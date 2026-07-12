@@ -27,7 +27,7 @@ export const Modal = ({ children, visible, dismiss }: ModalProps) => {
 	return (
 		<div
 			onClick={dismissClick}
-			className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-70"
+			className="fixed top-0 left-0 w-full h-full bg-black/70"
 		>
 			<div className="w-full h-full flex flew-row justify-center items-center">
 				<div

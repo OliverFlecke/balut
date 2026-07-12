@@ -51,7 +51,7 @@ const TdCell = (props: TdCellProps) => (
 	<Td
 		{...props}
 		className={`py-1 h-8 select-none bg-gray-300 dark:bg-gray-700 ${
-			props.variant === "suggestion" ? "text-blue-600" : ""
+			props.variant === "suggestion" ? "text-blue-600 dark:text-blue-400" : ""
 		}`}
 	/>
 );

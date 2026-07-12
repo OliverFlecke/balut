@@ -1,0 +1,7 @@
+@import "tailwindcss";
+
+html {
+	background-color: black;
+	--font-family-display: Futura, sans-serif;
+	--font-family-body: Futura, sans-serif;
+}

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import ClientLayout from "./ClientLayout";
-import "../tailwind.css";
+import "./globals.css";
 
 export const metadata: Metadata = {
 	title: "Balut app",

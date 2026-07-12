@@ -6,4 +6,4 @@ allowBuilds:
   esbuild: true
   fsevents: true
   sharp: true
-  workerd: set this to true or false
+  workerd: true

@@ -1,5 +1,5 @@
-import React from 'react';
-import { Td, Tr } from '../../styles/table';
+import React from "react";
+import { Td, Tr } from "../../styles/table";
 
 export const HeaderRow = () => (
 	<thead>

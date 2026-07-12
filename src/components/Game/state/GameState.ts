@@ -1,7 +1,7 @@
-import React from 'react';
-import { resetLocked } from './gameUtils';
-import { Category } from '../../../Category';
-import { enumStrings } from '../../../utils/enums';
+import React from "react";
+import { resetLocked } from "./gameUtils";
+import { Category } from "../../../Category";
+import { enumStrings } from "../../../utils/enums";
 
 export interface GameState {
 	roll?: Roll;
@@ -16,14 +16,14 @@ export interface GameAction {
 }
 
 function isBrowser(): boolean {
-	return typeof window !== 'undefined' && typeof localStorage !== 'undefined';
+	return typeof window !== "undefined" && typeof localStorage !== "undefined";
 }
 
 export function gameReducer(state: GameState, action: GameAction): GameState {
 	const newState = action.reduce(state);
 
 	if (isBrowser()) {
-		localStorage.setItem('gameState', JSON.stringify(newState));
+		localStorage.setItem("gameState", JSON.stringify(newState));
 	}
 
 	return newState;
@@ -37,7 +37,7 @@ export const GameContext = React.createContext<{
 
 export function initialGameState(): GameState {
 	if (isBrowser()) {
-		const stored = localStorage.getItem('gameState');
+		const stored = localStorage.getItem("gameState");
 		if (stored !== null) {
 			try {
 				return JSON.parse(stored) as GameState;
@@ -69,7 +69,7 @@ export type BalutValues = { [key: string]: RowState };
 // 'null' = cell unused
 // 'X' = cell scratched
 // else the value entered
-export type Value = number | 'X' | null;
+export type Value = number | "X" | null;
 export type RowState = [Value, Value, Value, Value];
 
 export type WriteValue = (

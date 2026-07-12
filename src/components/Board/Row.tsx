@@ -1,9 +1,9 @@
-import React, { useMemo } from 'react';
-import { Category, categoryToString } from '../../Category';
-import { Td, Th, Tr } from '../../styles/table';
-import { Roll, RowState, WriteValue } from '../Game/state/GameState';
-import { Cell } from './Cell';
-import { calculateSuggestion, categoryPoints, sumValues } from './rules';
+import React, { useMemo } from "react";
+import { type Category, categoryToString } from "../../Category";
+import { Td, Th, Tr } from "../../styles/table";
+import type { Roll, RowState, WriteValue } from "../Game/state/GameState";
+import { Cell } from "./Cell";
+import { calculateSuggestion, categoryPoints, sumValues } from "./rules";
 
 interface RowProps {
 	category: Category;
@@ -29,7 +29,7 @@ export const Row = ({ category, values, roll, writeValue }: RowProps) => {
 					value={value}
 					category={category}
 					suggestion={
-						first === i ? (suggestion === 0 ? 'X' : suggestion) : undefined
+						first === i ? (suggestion === 0 ? "X" : suggestion) : undefined
 					}
 					writeValue={writeValue}
 				/>

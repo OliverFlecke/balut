@@ -1,9 +1,9 @@
-import { HubConnection } from '@microsoft/signalr';
+import type { HubConnection } from "@microsoft/signalr";
 import {
-	BalutValues,
+	type BalutValues,
 	initBalutValues,
-} from '../components/Game/state/GameState';
-import { Action, AppState } from './AppState';
+} from "../components/Game/state/GameState";
+import type { Action, AppState } from "./AppState";
 
 export class SetConnectionAction implements Action {
 	connection: HubConnection;
@@ -65,7 +65,7 @@ export class UpdatePlayerStateAction implements Action {
 					? {
 							...player,
 							values: this.values,
-					  }
+						}
 					: player;
 			}),
 		};

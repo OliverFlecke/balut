@@ -1,21 +1,21 @@
-import { useCallback, useEffect, useReducer, useState } from 'react';
-import { Category } from '../../Category';
-import { Button } from '../../styles/elements';
-import { Board } from '../Board/Board';
-import { BoardControls } from '../Board/BoardControls';
-import { Dice } from './Dice';
-import { ClearBoard } from './state/actions/ClearBoard';
-import { ResetRollAction } from './state/actions/ResetRollAction';
-import { RollAction } from './state/actions/RollAction';
-import { StoreValue } from './state/actions/StoreValue';
-import { ToggleDiceAction } from './state/actions/ToggleDiceAction';
+import { useCallback, useEffect, useReducer, useState } from "react";
+import type { Category } from "../../Category";
+import { Button } from "../../styles/elements";
+import { Board } from "../Board/Board";
+import { BoardControls } from "../Board/BoardControls";
+import { Dice } from "./Dice";
+import { ClearBoard } from "./state/actions/ClearBoard";
+import { ResetRollAction } from "./state/actions/ResetRollAction";
+import { RollAction } from "./state/actions/RollAction";
+import { StoreValue } from "./state/actions/StoreValue";
+import { ToggleDiceAction } from "./state/actions/ToggleDiceAction";
 import {
 	gameReducer,
 	initialGameState,
-	Value,
-	BalutValues,
-} from './state/GameState';
-import { doRoll } from './state/gameUtils';
+	type Value,
+	type BalutValues,
+} from "./state/GameState";
+import { doRoll } from "./state/gameUtils";
 
 interface GameProps {
 	onTurnFinished?: (values: BalutValues) => void;
@@ -64,7 +64,7 @@ export const Game = ({ onTurnFinished }: GameProps) => {
 			<Board roll={state.roll} values={state.values} writeValue={writeValue} />
 			<h3>
 				{state.rollNumber === 0
-					? 'Roll your dice!'
+					? "Roll your dice!"
 					: `Roll #${state.rollNumber} of 3`}
 			</h3>
 			<div className="flex justify-center flex-wrap">
@@ -81,7 +81,7 @@ export const Game = ({ onTurnFinished }: GameProps) => {
 
 			<div className="flex my-2">
 				<Button
-					variant={state.rollNumber === 3 ? 'disabled' : 'primary'}
+					variant={state.rollNumber === 3 ? "disabled" : "primary"}
 					onClick={executeRoll}
 					disabled={state.rollNumber === 3}
 				>

@@ -4,7 +4,7 @@ interface DefaultProps {
 	className?: string;
 }
 
-type ButtonVariant = 'primary' | 'disabled';
+type ButtonVariant = "primary" | "disabled";
 
 export const Button = (
 	props: React.DetailedHTMLProps<
@@ -22,11 +22,11 @@ export const Button = (
 
 function buttonColor(variant?: ButtonVariant) {
 	switch (variant) {
-		case 'disabled':
-			return 'bg-gray-400 dark:bg-gray-700 cursor-not-allowed';
+		case "disabled":
+			return "bg-gray-400 dark:bg-gray-700 cursor-not-allowed";
 
 		default:
-			return 'bg-blue-400';
+			return "bg-blue-400";
 	}
 }
 

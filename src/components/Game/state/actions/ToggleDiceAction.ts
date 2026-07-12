@@ -1,4 +1,4 @@
-import { GameAction, GameState, RollLock } from '../GameState';
+import type { GameAction, GameState, RollLock } from "../GameState";
 
 export class ToggleDiceAction implements GameAction {
 	index: number;

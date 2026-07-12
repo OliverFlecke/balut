@@ -1,12 +1,12 @@
-import Link from 'next/link';
-import { Li, Ul } from '../styles/elements';
+import Link from "next/link";
+import { Li, Ul } from "../styles/elements";
 
 interface NavigationProps {
 	shouldShowMultiplayer: boolean;
 	showMultiplayer: () => void;
 }
 
-const linkClasses = 'text-lg mx-2 pointer no-underline text-blue-400';
+const linkClasses = "text-lg mx-2 pointer no-underline text-blue-400";
 
 export const Navigation = ({
 	shouldShowMultiplayer,

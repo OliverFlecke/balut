@@ -1,5 +1,5 @@
-import React from 'react';
-import { Tr, Td } from '../../styles/table';
+import React from "react";
+import { Tr, Td } from "../../styles/table";
 
 interface FooterRowProps {
 	total: number;

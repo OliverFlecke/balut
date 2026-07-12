@@ -1,5 +1,5 @@
-import { HubConnection } from '@microsoft/signalr';
-import { BalutValues } from '../components/Game/state/GameState';
+import type { HubConnection } from "@microsoft/signalr";
+import type { BalutValues } from "../components/Game/state/GameState";
 
 export interface AppState {
 	name?: string;
@@ -18,7 +18,7 @@ export interface Action {
 }
 
 function isBrowser(): boolean {
-	return typeof window !== 'undefined' && typeof localStorage !== 'undefined';
+	return typeof window !== "undefined" && typeof localStorage !== "undefined";
 }
 
 export function reducer(state: AppState, action: Action): AppState {
@@ -27,7 +27,7 @@ export function reducer(state: AppState, action: Action): AppState {
 	if (isBrowser()) {
 		const toSave = JSON.parse(JSON.stringify(newState));
 		toSave.connection = undefined;
-		localStorage.setItem('appState', JSON.stringify(toSave));
+		localStorage.setItem("appState", JSON.stringify(toSave));
 	}
 
 	return newState;
@@ -35,7 +35,7 @@ export function reducer(state: AppState, action: Action): AppState {
 
 export function initial(): AppState {
 	if (isBrowser()) {
-		const stored = localStorage.getItem('appState');
+		const stored = localStorage.getItem("appState");
 		if (stored) {
 			try {
 				return JSON.parse(stored);

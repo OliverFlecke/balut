@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import { createContext, useContext } from 'react';
-import type { Action, AppState } from './AppState';
+import { createContext, useContext } from "react";
+import type { Action, AppState } from "./AppState";
 
 interface AppContextType {
 	state: AppState;

@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback } from "react";
 import {
 	FaDiceFive,
 	FaDiceFour,
@@ -6,8 +6,8 @@ import {
 	FaDiceSix,
 	FaDiceThree,
 	FaDiceTwo,
-} from 'react-icons/fa/index';
-import { IconBaseProps } from 'react-icons/lib';
+} from "react-icons/fa/index";
+import type { IconBaseProps } from "react-icons/lib";
 
 interface DiceProps {
 	dice: number;
@@ -18,7 +18,7 @@ interface DiceProps {
 
 export const Dice = ({ dice, locked, index, toggleLock }: DiceProps) => {
 	const onClick = useCallback(() => toggleLock(index), [toggleLock, index]);
-	const color = locked ? 'red' : 'white';
+	const color = locked ? "red" : "white";
 
 	switch (dice) {
 		case 1:

@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import { Game } from '../components/Game/Game';
-import { MultiplayerGame } from '../components/MultiplayerGame';
-import { useAppContext } from '../state/AppContext';
+import { Game } from "../components/Game/Game";
+import { MultiplayerGame } from "../components/MultiplayerGame";
+import { useAppContext } from "../state/AppContext";
 
 export default function HomePage() {
 	const { state, dispatch } = useAppContext();

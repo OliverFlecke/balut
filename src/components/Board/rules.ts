@@ -1,17 +1,17 @@
-import { Category } from '../../Category';
-import { Roll, RowState, Value } from '../Game/state/GameState';
-import { sumNumbers } from '../Game/state/gameUtils';
+import { Category } from "../../Category";
+import type { Roll, RowState, Value } from "../Game/state/GameState";
+import { sumNumbers } from "../Game/state/gameUtils";
 
 export function categoryPoints(category: Category, values: RowState): number {
 	switch (category) {
 		case Category.Balut:
-			return 2 * values.filter((x) => typeof x === 'number' && x !== 0).length;
+			return 2 * values.filter((x) => typeof x === "number" && x !== 0).length;
 		case Category.Chance:
 			return sumValues(values) >= 100 ? 2 : 0;
 		case Category.FullHouse:
-			return values.filter((x) => typeof x === 'number').length === 4 ? 3 : 0;
+			return values.filter((x) => typeof x === "number").length === 4 ? 3 : 0;
 		case Category.Straight:
-			return values.filter((x) => typeof x === 'number').length === 4 ? 4 : 0;
+			return values.filter((x) => typeof x === "number").length === 4 ? 4 : 0;
 		case Category.Sixes:
 			return sumValues(values) >= 78 ? 2 : 0;
 		case Category.Fives:
@@ -23,7 +23,7 @@ export function categoryPoints(category: Category, values: RowState): number {
 
 export function sumValues(values: RowState): number {
 	return values
-		.filter((x) => typeof x === 'number')
+		.filter((x) => typeof x === "number")
 		.map((x) => x as number)
 		.reduce((acc, v) => acc + v, 0);
 }
@@ -54,13 +54,13 @@ export function calculateSuggestion(category: Category, roll?: Roll): Value {
 		case Category.Sixes:
 			return sumNumbers(roll.filter((x) => x === 6));
 		case Category.Straight:
-			return isStraight(roll) ? sumNumbers(roll) : 'X';
+			return isStraight(roll) ? sumNumbers(roll) : "X";
 		case Category.FullHouse:
-			return isFullHouse(roll) ? sumNumbers(roll) : 'X';
+			return isFullHouse(roll) ? sumNumbers(roll) : "X";
 		case Category.Chance:
 			return sumNumbers(roll);
 		case Category.Balut:
-			return roll.every((x) => x === roll[0]) ? sumNumbers(roll) + 20 : 'X';
+			return roll.every((x) => x === roll[0]) ? sumNumbers(roll) + 20 : "X";
 	}
 }
 

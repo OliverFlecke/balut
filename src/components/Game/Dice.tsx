@@ -6,7 +6,7 @@ import {
 	FaDiceSix,
 	FaDiceThree,
 	FaDiceTwo,
-} from "react-icons/fa/index";
+} from "react-icons/fa";
 import type { IconBaseProps } from "react-icons/lib";
 
 interface DiceProps {

@@ -1,5 +1,7 @@
 import * as signalR from '@microsoft/signalr';
 
+export const url = 'https://localhost:5001/play';
+
 export function initConnection(url: string): Promise<signalR.HubConnection> {
 	const connection = new signalR.HubConnectionBuilder().withUrl(url).build();
 

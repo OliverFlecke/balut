@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 import { Li, Ul } from '../styles/elements';
 
 interface NavigationProps {
@@ -15,12 +15,12 @@ export const Navigation = ({
 	<nav>
 		<Ul className="flex flex-row">
 			<Li>
-				<Link to="/" className={linkClasses}>
+				<Link href="/" className={linkClasses}>
 					Game
 				</Link>
 			</Li>
 			<Li>
-				<Link to="/rules" className={linkClasses}>
+				<Link href="/rules" className={linkClasses}>
 					Rules
 				</Link>
 			</Li>

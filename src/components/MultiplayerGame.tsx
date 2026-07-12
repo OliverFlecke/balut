@@ -3,6 +3,7 @@ import React, { useCallback, useState, useEffect } from 'react';
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
 import { PlayerState, Action } from '../state/AppState';
+import { BalutValues } from './Game/state/GameState';
 import { Board } from './Board/Board';
 import { Game } from './Game/Game';
 import { UpdatePlayerStateAction } from '../state/AppActions';
@@ -24,14 +25,14 @@ export const MultiplayerGame = ({
 }: MultiplayerGameProps) => {
 	const [index, setIndex] = useState(0);
 	const onSelect = useCallback(
-		(index) => {
+		(index: number) => {
 			setIndex(index);
 		},
 		[setIndex],
 	);
 
 	const onTurnFinished = useCallback(
-		(values) => {
+		(values: BalutValues) => {
 			console.log('Sending state');
 			connection.invoke('sendState', session, name, values);
 		},

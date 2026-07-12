@@ -3,7 +3,7 @@ import { useCallback } from 'react';
 interface ModalProps {
 	visible: boolean;
 	dismiss?: () => void;
-	children?: JSX.Element;
+	children?: React.ReactNode;
 }
 
 export const Modal = ({ children, visible, dismiss }: ModalProps) => {

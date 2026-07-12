@@ -1,5 +1,7 @@
 module.exports = {
-	purge: [],
+	purge: {
+		content: ['./src/**/*.{js,ts,jsx,tsx}'],
+	},
 	theme: {
 		fontFamily: {
 			display: ['Futura', 'sans-serif'],

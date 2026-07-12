@@ -3,7 +3,7 @@ allowBuilds:
   core-js-pure: true
   ejs: true
   es5-ext: true
-  esbuild: set this to true or false
+  esbuild: true
   fsevents: true
-  sharp: set this to true or false
+  sharp: true
   workerd: set this to true or false

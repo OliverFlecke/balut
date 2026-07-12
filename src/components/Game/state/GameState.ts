@@ -15,9 +15,16 @@ export interface GameAction {
 	reduce(state: GameState): GameState;
 }
 
+function isBrowser(): boolean {
+	return typeof window !== 'undefined' && typeof localStorage !== 'undefined';
+}
+
 export function gameReducer(state: GameState, action: GameAction): GameState {
 	const newState = action.reduce(state);
-	localStorage.setItem('gameState', JSON.stringify(newState));
+
+	if (isBrowser()) {
+		localStorage.setItem('gameState', JSON.stringify(newState));
+	}
 
 	return newState;
 }
@@ -29,12 +36,13 @@ export const GameContext = React.createContext<{
 }>({} as any);
 
 export function initialGameState(): GameState {
-	const stored = localStorage.getItem('gameState');
-
-	if (stored !== null) {
-		try {
-			return JSON.parse(stored) as GameState;
-		} catch {}
+	if (isBrowser()) {
+		const stored = localStorage.getItem('gameState');
+		if (stored !== null) {
+			try {
+				return JSON.parse(stored) as GameState;
+			} catch {}
+		}
 	}
 
 	return {

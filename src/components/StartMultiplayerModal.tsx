@@ -1,7 +1,6 @@
 import { HubConnection } from '@microsoft/signalr';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { url } from '../App';
-import { initConnection } from '../connection';
+import { url, initConnection } from '../connection';
 import {
 	AddPlayerAction,
 	SetConnectionAction,

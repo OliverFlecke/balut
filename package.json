@@ -27,14 +27,14 @@
 		"react-tabs": "^6.0.0"
 	},
 	"devDependencies": {
-		"@biomejs/biome": "^2.5.3",
-		"@tailwindcss/postcss": "^4.3.2",
+		"@biomejs/biome": "^2.5.4",
+		"@tailwindcss/postcss": "^4.3.3",
 		"@types/node": "26.1.1",
 		"@types/react": "^19.0.0",
 		"@types/react-dom": "^19.0.0",
 
-		"tailwindcss": "^4.3.2",
+		"tailwindcss": "^4.3.3",
 		"typescript": "^5.9.3",
-		"wrangler": "^4.110.0"
+		"wrangler": "^4.112.0"
 	}
 }

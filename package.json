@@ -20,9 +20,9 @@
 	},
 	"dependencies": {
 		"@microsoft/signalr": "^5.0.4",
-		"next": "^16.2.10",
-		"react": "^19.0.0",
-		"react-dom": "^19.0.0",
+		"next": "^16.2.11",
+		"react": "^19.2.8",
+		"react-dom": "^19.2.8",
 		"react-icons": "^5.0.0",
 		"react-tabs": "^6.0.0"
 	},

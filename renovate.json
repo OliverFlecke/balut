@@ -1,0 +1,36 @@
+{
+	"$schema": "https://docs.renovatebot.com/renovate-schema.json",
+	"extends": ["config:recommended"],
+	"lockFileMaintenance": { "enabled": true },
+	"prConcurrentLimit": 5,
+	"prHourlyLimit": 0,
+	"minimumReleaseAge": "1 day",
+	"packageRules": [
+		{
+			"description": "group production minor/patch updates into one PR",
+			"matchManagers": ["npm"],
+			"matchDepTypes": ["dependencies"],
+			"matchUpdateTypes": ["minor", "patch"],
+			"groupName": "production dependencies (non-major)"
+		},
+		{
+			"description": "group devDependencies minor/patch updates into one PR",
+			"matchManagers": ["npm"],
+			"matchDepTypes": ["devDependencies"],
+			"matchUpdateTypes": ["minor", "patch"],
+			"groupName": "devDependencies (non-major)"
+		},
+		{
+			"description": "npm: wait 2 days before raising non-major update PRs",
+			"matchManagers": ["npm"],
+			"matchUpdateTypes": ["patch", "minor"],
+			"minimumReleaseAge": "2 days"
+		},
+		{
+			"description": "npm: wait 7 days before raising major update PRs",
+			"matchManagers": ["npm"],
+			"matchUpdateTypes": ["major"],
+			"minimumReleaseAge": "7 days"
+		}
+	]
+}

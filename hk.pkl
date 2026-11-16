@@ -1,16 +1,10 @@
 amends "package://github.com/jdx/hk/releases/download/v2.12.0/hk@2.12.0#/Config.pkl"
 import "package://github.com/jdx/hk/releases/download/v2.12.0/hk@2.12.0#/Builtins.pkl"
 
-exclude = List("node_modules", "pnpm-lock.yaml", "dist", "build")
-
-local js = new Group {
-	workspace_indicator = "pnpm.yaml"
-	steps {
-		["biome"] = (Builtins.biome)
-	}
-}
+exclude = List("node_modules", "pnpm-lock.yaml", "dist", "build", ".next", "out", ".wrangler")
 
 local shared = new Mapping<String, Step> {
+	["biome"] = Builtins.biome
 	["yaml"] = (Builtins.yamllint) {
 		glob = List("**/*.yaml", "**/*.yml")
 		exclude = List("**/node_modules/**", "**/pnpm-lock.yaml")
@@ -27,7 +21,6 @@ hooks {
 		fix = true
 		stash = "git"
 		steps {
-			["js"] = js
 			...shared
 			["check-merge-conflict"] = Builtins.check_merge_conflict
 			["check-added-large-files"] = Builtins.check_added_large_files
@@ -44,13 +37,11 @@ hooks {
 	["fix"] {
 		fix = true
 		steps {
-			["js"] = js
 			...shared
 		}
 	}
 	["check"] {
 		steps {
-			["js"] = js
 			...shared
 		}
 	}

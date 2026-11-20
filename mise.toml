@@ -3,4 +3,4 @@ biome = "2.5.11"
 hk = "2.13.0"
 node = "26"
 pnpm = "12.21"
-wrangler = { version = "4.164", allow_builds = ["esbuild", "sharp", "workerd"] }
+wrangler = { version = "4.165", allow_builds = ["esbuild", "sharp", "workerd"] }
